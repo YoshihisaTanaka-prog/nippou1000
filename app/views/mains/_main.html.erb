@@ -1,0 +1,85 @@
+<br><hr>
+<div id="<%= dom_id main %>">
+  <form action="/send" method="post" accept-charset="UTF-8">
+    <input type="hidden" name="authenticity_token">
+    <p>
+      <strong>件名</strong><br>
+      <input type="text" name="title" style="width: 100%" value="日報　<%= current_user.grade %><%= "新卒" if current_user.grade == Time.now.year %>　<%= current_user.affiliation %>　No.<%= main.vol %>　<%= main.title %>">
+    </p>
+
+    <hr>
+    
+    <div>
+      <strong>本文</strong><br>
+      <textarea name="text" style="width: 100%; height: 15em;">
+みなさま
+<%= current_user.name %>[<%= current_user.kana %>]です。
+本日の<%= current_user.first_person %>の日報をお送りします。
+
+<%= main.first_comment.change_first_person(@basic_first_people, current_user.first_person).scan(/.{1,20}/).join("\n") %>
+
+〇業務内容
+<% main.what_to_dos.order(:from_time).each do |w| %>
+　・<%= w.name.scan(/.{1,18}/).join("\n　　") %>
+　　<%= w.from_time.strftime('%H:%M') %>～<%= w.to_time.strftime('%H:%M') %>
+<% end %>
+
+〇学んだこと
+<% if main.learned_lists.where(is_learned: 0).length == 0 %>
+※※※　　要追加　　※※※
+<% else %>
+<% main.learned_lists.where(is_learned: 0).order(:id).each do |l| %>
+　・<%= l.text.gsub("\n", "\n　　").scan(/.{1,18}/).join("\n　　") %>
+<% end %>
+<% end %>
+
+〇感じたこと
+<% if main.learned_lists.where(is_learned: 0).length == 0 %>
+※※※　　要追加　　※※※
+<% else %>
+<% main.learned_lists.where(is_learned: 1).order(:id).each do |l| %>
+　・<%= l.text.gsub("\n", "\n　　").scan(/.{1,18}/).join("\n　　") %>
+<% end %>
+<% end %>
+
+<% unless main.points.where(is_good: 0).length == 0 %>
+〇良かった点
+<% main.points.where(is_good: 0).order(:id).each do |p| %>
+　・<%= p.text.scan(/.{1,18}/).join("\n　　") %>
+<% end %>
+<% end %>
+
+<% unless main.points.where(is_good: 1).length == 0 %>
+〇悪かった点
+<ul>
+<% main.points.where(is_good: 1).order(:id).each do |p| %>
+　・<%= p.text.scan(/.{1,18}/).join("\n　　") %>
+<% end %>
+<% end %>
+
+<% unless @todos.length == 0 %>
+〇やりたいこと
+<% @todos.each do |t| %>
+　・<%= t.name.scan(/.{1,18}/).join("\n　　") %>
+<% if t.time_limit %>
+　　期限：<%= t.time_limit.strftime('%Y/%m/%d %H:%M') %>
+<% end %>
+<% end %>
+<% end %>
+
+<%= main.second_comment.scan(/.{1,20}/).join("\n") %>
+
+以上です。
+本日もお読みいただき、
+ありがとうございます。
+
+<%= current_user.sign %>
+      </textarea>
+    </div>
+    <button>送信</button>
+  </form>
+</div>
+<br><hr><br>
+<script>
+  $("input[name='authenticity_token']").val( $("meta[name=''csrf-token]").attr("content") );
+</script>

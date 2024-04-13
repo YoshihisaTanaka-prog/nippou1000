@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>What to dos</h1>
+
+<div id="what_to_dos">
+  <% @what_to_dos.each do |what_to_do| %>
+    <%= render what_to_do %>
+    <p>
+      <%= link_to "Show this what to do", what_to_do %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New what to do", new_what_to_do_path %>

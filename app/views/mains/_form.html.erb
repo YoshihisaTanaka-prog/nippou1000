@@ -1,0 +1,425 @@
+<%= form_with(model: main, id: "main-form") do |form| %>
+
+  <% if main.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(main.errors.count, "error") %> prohibited this main from being saved:</h2>
+      <ul>
+        <% main.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% elsif errors %>
+    <div style="color: red">
+      <h2><%= pluralize(errors.count, "error") %> prohibited this main from being saved:</h2>
+      <ul>
+        <% errors.each do |error| %>
+          <li><%= error %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <h3>件名</h3>
+    日報　<%= current_user.grade %><%= "新卒" if current_user.grade == Time.now.year %>　<%= current_user.affiliation %>　No.<%= current_user.vol + 1 if action_name == "new" %><%= main.vol unless action_name == "new" %>　<%= form.text_field :title %>
+  </div>
+
+  <h2>本文</h2>
+  みなさま<br>
+  <%= current_user.name %>[<%= current_user.kana %>]です。<br>
+  本日の<%= current_user.first_person %>の日報をお送りします。
+
+  <div>
+    <h3>始めに</h3>
+    <%= form.text_area :first_comment, autofocus: true %>
+  </div>
+
+  <div id="what-to-do">
+    <h3>業務内容</h3>
+    <input type="hidden" id="what-to-do-length" value="<%= main.what_to_dos.length %>">
+    <% index = 0 %>
+    <%= form.fields_for :what_to_dos do |w| %>
+      <div>
+        ・<%= w.text_field :name %>
+        <%= w.label "　時間" %>
+        
+        <% if index == 0 %>
+          <%= w.time_field :from_time %>
+        <% else %>
+          <%= w.hidden_field :from_time %>
+          <span id="from-<%= index %>"><%= w.object.from_time.strftime('%H:%M') if w.object.from_time %></span>
+        <% end %>
+        ～
+        <%= w.time_field :to_time, class: "to-time" %>
+      </div>
+      <% index = index + 1%>
+    <% end %>
+  </div>
+  <button type="button" onclick="addWhatToDo()">+</button>
+
+  <h3>学んだこと・感じたこと</h3>
+  <input type="hidden" id="learned-list-length" value="<%= main.learned_lists.length %>">
+  <div id="learned-list">
+    <%= form.fields_for :learned_lists do |l| %>
+      <div>
+        ・<%= l.text_area :text %><br>
+        
+        <% if l.object.is_learned.blank? %>
+          　学んだこと<%= l.range_field :is_learned, min:0, max:1, value: "0", class: "switch" %>感じたこと
+        <% elsif l.object.is_learned == 0 %>
+          　学んだこと<%= l.range_field :is_learned, min:0, max:1, value: "0", class: "switch" %>感じたこと
+        <% else %>
+          　学んだこと<%= l.range_field :is_learned, min:0, max:1, value: "1", class: "switch" %>感じたこと
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+  <button type="button" onclick="addLearnedList()">+</button>
+
+  <h3>良い点・悪い点</h3>
+  <input type="hidden" id="points-length" value="<%= main.points.length %>">
+  <div id="points">
+    <%= form.fields_for :points do |p| %>
+      <div>
+        ・<%= p.text_field :text %><br>
+        <% if p.object.is_good.blank? %>
+          　良い点<%= p.range_field :is_good, min:0, max:1, value: "0", class: "switch" %>悪い点
+        <% elsif p.object.is_good == 0 %>
+          　良い点<%= p.range_field :is_good, min:0, max:1, value: "0", class: "switch" %>悪い点
+        <% else %>
+          　良い点<%= p.range_field :is_good, min:0, max:1, value: "1", class: "switch" %>悪い点
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+  <button type="button" onclick="addPoints()">+</button>
+
+  <h3>やりたいこと</h3>
+  <div id="todos">
+    <% ToDo.where(is_finished: false).where.not(main_id: main.id).order(:time_limit).each do |todo| %>
+      <div>
+        ・<%= link_to todo.name, edit_to_do_path(todo.id) %><br>
+        　期限　<%= todo.time_limit %>
+      </div>
+    <% end %>
+    <input type="hidden" id="todos-length" value="<%= main.to_dos.length %>">
+    <%= form.fields_for :to_dos do |t| %>
+      <div>
+        ・<%= t.text_field :name %><br>
+        <%= t.label "　期限　" %>
+        <%= t.datetime_field :time_limit %>
+      </div>
+    <% end %>
+  </div>
+  <button type="button" onclick="addToDos()">+</button>
+
+  <div>
+    <h3>最後に</h3>
+    <%= form.text_area :second_comment %>
+  </div><br>
+
+  以上です。<br>
+  本日もお読みいただき、<br>
+  ありがとうございます。<br><br>
+
+  <%= simple_format(current_user.sign) %>
+
+  <div>
+    <button type="button" onclick="confirmAndSubmit()">確認画面へ</button>
+  </div>
+<% end %>
+
+<script>
+  function confirmAndSubmit(){
+    var isExistsDaDearu = false;
+    var isExistsNull = false;
+    const ignoreIdList = ["main_title"];
+    for (let index = 0; index < Number($("#what-to-do-length").val()); index++) {
+      ignoreIdList.push(`main_what_to_dos_attributes_${index}_name`);
+    }
+    $("input[type='text']").each(function(){
+      if( !(ignoreIdList.includes($(this).attr("id"))) ){
+        const text = $(this).val();
+        if(!checkSentenceEnding(text)){
+          if(!isExistsDaDearu){
+            $(this).focus();
+          }
+          isExistsDaDearu = true;
+          console.log($(this).attr("id"));
+          $(this).css("background", "#f80")
+        }
+      }
+    });
+    $("textarea").each(function(){
+      const text = $(this).val();
+      if(!checkSentenceEnding(text)){
+        if(!isExistsDaDearu){
+          $(this).focus();
+        }
+        isExistsDaDearu = true;
+        console.log($(this).attr("id"));
+        $(this).css("background", "#f80")
+      }
+    });
+    $("input[type='time']").each(function(){
+      if($(this).val() == ""){
+        if(!isExistsNull && !isExistsDaDearu){
+          $(this).focus();
+        }
+        isExistsNull = true;
+        $(this).css("background", "#f80")
+      }
+    });
+    $("input[type='datetime-local']").each(function(){
+      if($(this).val() == ""){
+        if(!isExistsNull && !isExistsDaDearu){
+          $(this).focus();
+        }
+        isExistsNull = true;
+        $(this).css("background", "#f80")
+      }
+    });
+    if(isExistsDaDearu){
+      alert("です・ます調に治してください。");
+    } else if(isExistsNull){
+      alert("必要項目を入力して下さい。");
+    } else{
+      $("#main-form").submit();
+    }
+  }
+
+  var isFirst = false;
+  setEnter();
+  function getFormData(){
+    const paramArray = $("#main-form").serializeArray();
+    var param = {}
+    for(let p of paramArray){
+      param[p.name] = p.value;
+    }
+    return param;
+  }
+  
+  function addWhatToDo(){
+    const length = Number($("#what-to-do-length").val());
+    if(length == 0){
+      $("#what-to-do").append(`
+        <div>
+        ・<input type="text" name="main[what_to_dos_attributes][0][name]" id="main_what_to_dos_attributes_0_name">
+        <label for="main_what_to_dos_attributes_0_　時間">　時間</label>
+        
+          <input type="time" name="main[what_to_dos_attributes][0][from_time]" id="main_what_to_dos_attributes_0_from_time">
+        ～
+        <input class="to-time" type="time" name="main[what_to_dos_attributes][0][to_time]" id="main_what_to_dos_attributes_0_to_time">
+        </div>
+      `);
+    } else{
+      $("#what-to-do").append(`
+        <div>
+        ・<input type="text" name="main[what_to_dos_attributes][${length}][name]" id="main_what_to_dos_attributes_${length}_name">
+        <label for="main_what_to_dos_attributes_${length}_　時間">　時間</label>
+        <input type="hidden" name="main[what_to_dos_attributes][${length}][from_time]" id="main_what_to_dos_attributes_${length}_from_time" value="${$(`#main_what_to_dos_attributes_${length-1}_to_time`).val()}">
+        <span id="from-${length}">${$(`#main_what_to_dos_attributes_${length-1}_to_time`).val().split(":")[0]}:${$(`#main_what_to_dos_attributes_${length-1}_to_time`).val().split(":")[1]}</span> ～ 
+        <input type="time" name="main[what_to_dos_attributes][${length}][to_time]" id="main_what_to_dos_attributes_${length}_to_time">
+        </div>
+      `);
+    }
+    $(`#main_what_to_dos_attributes_${length}_name`).on("change", function(){
+      save();
+    });
+    $(`#main_what_to_dos_attributes_${length}_to_time`).on("change", function(){
+      updateNextStartTime(this);
+      save();
+    });
+    $("#what-to-do-length").val(length + 1);
+  }
+
+  function addLearnedList(){
+    const length = Number($("#learned-list-length").val());
+    $("#learned-list").append(`
+      <div>
+      ・<textarea name="main[learned_lists_attributes][${length}][text]" id="main_learned_lists_attributes_${length}_text"></textarea><br>
+      　学んだこと<input min="0" max="1" value="0" class="switch" type="range" name="main[learned_lists_attributes][${length}][is_learned]" id="main_learned_lists_attributes_${length}_is_learned">感じたこと
+      </div>
+    `);
+    $(`#main_learned_lists_attributes_${length}_text`).on("change", function(){
+      save();
+    });
+    $(`#main_learned_lists_attributes_${length}_is_learned`).on("change", function(){
+      save();
+    });
+    $("#learned-list-length").val(length + 1);
+  }
+
+  function addPoints() {
+    const length = Number($("#points-length").val());
+    $("#points").append(`
+      <div>
+      ・<input type="text" name="main[points_attributes][${length}][text]" id="main_points_attributes_${length}_text"><br>
+      　良い点<input min="0" max="1" value="0" class="switch" type="range" name="main[points_attributes][${length}][is_good]" id="main_points_attributes_${length}_is_good">悪い点
+      </div>
+    `);
+    $(`#main_points_attributes_${length}_text`).on("change", function(){
+      save();
+    });
+    $(`#main_points_attributes_${length}_is_good`).on("change", function(){
+      save();
+    });
+  }
+
+  function addToDos() {
+    const length = Number($("#todos-length").val());
+    $("#todos").append(`
+      <div>
+      ・<input type="text" name="main[to_dos_attributes][${length}][name]" id="main_to_dos_attributes_${length}_name"><br>
+      <label for="main_to_dos_attributes_${length}_　期限　">　期限　</label>
+      <input type="datetime-local" name="main[to_dos_attributes][${length}][time_limit]" id="main_to_dos_attributes_${length}_time_limit">
+      </div>
+    `);
+    $(`#main_to_dos_attributes_${length}_name`).on("change", function(){
+      save();
+    });
+    $(`#main_to_dos_attributes_${length}_time_limit`).on("change", function(){
+      save();
+    });
+  }
+
+  function updateNextStartTime(html){
+    const index = Number($(html).attr("id").split("_")[5]);
+    const selectedTime = $(html).val();
+    $(`#from-${index+1}`).html(selectedTime.split(":")[0] + ":" + selectedTime.split(":")[1]);
+    $(`#main_what_to_dos_attributes_${index+1}_from_time`).val(selectedTime);
+  }
+  
+  function save() {
+    const params = getFormData();
+    setCSRFtoken();
+    $.post(`${$("#main-form").attr("action")}.json`, params, function(data){
+      console.log(data);
+      $("#main-form").append('<input type="hidden" name="_method" value="patch" autocomplete="off">');
+      setEnter();
+      for(let index in data.what_to_dos){
+        const id = `#main_what_to_dos_attributes_${index}_id`
+        const idNum = data.what_to_dos[index].id;
+        if($(id).length){
+          $(id).val(idNum);
+        } else{
+          $("#what-to-do").append(`<input autocomplete="off" type="hidden" value="${idNum}" name="main[what_to_dos_attributes][${index}][id]" id="main_what_to_dos_attributes_${index}_id">`);
+        }
+      }
+      for(let index in data.learned_lists){
+        const id = `#main_learned_lists_attributes_${index}_id`
+        const idNum = data.learned_lists[index].id;
+        if($(id).length){
+          $(id).val(idNum);
+        } else{
+          $("#learned-list").append(`<input autocomplete="off" type="hidden" value="${idNum}" name="main[learned_lists_attributes][${index}][id]" id="main_learned_lists_attributes_${index}_id">`);
+        }
+      }
+      for(let index in data.points){
+        const id = `#main_points_attributes_${index}_id`
+        const idNum = data.points[index].id;
+        if($(id).length){
+          $(id).val(idNum);
+        } else{
+          $("#points").append(`<input autocomplete="off" type="hidden" value="${idNum}" name="main[points_attributes][${index}][id]" id="main_points_attributes_${index}_id">`);
+        }
+      }
+      for(let index in data.to_dos){
+        const id = `#main_to_dos_attributes_${index}_id`
+        const idNum = data.to_dos[index].id;
+        if($(id).length){
+          $(id).val(idNum);
+        } else{
+          $("#todos").append(`<input autocomplete="off" type="hidden" value="${idNum}" name="main[to_dos_attributes][${index}][id]" id="main_to_dos_attributes_${index}_id">`);
+        }
+      }
+      if(isFirst){
+        $("#main-form").attr("action", `/mains/${data.id}`);
+        isFirst = false;
+      }
+    });
+  }
+
+  function setEnter() {
+    const idList = [];
+    $("input").each(function(index, element){
+      if($(element).attr("type") != "hidden"){
+        const id = $(element).attr("id");
+        if(id){
+          idList.push(id);
+        }
+      }
+    });
+    for (let index = 1; index < idList.length-1; index++) {
+      $(`#${idList[index]}`).keydown(function(event) {
+        if (event.keyCode === 13) { // 13はエンターキーのキーコード
+          event.preventDefault(); // デフォルトのイベント（通常のフォームの送信など）をキャンセル
+          // エンターキーが押されたときの処理をここに記述
+          $(`#${idList[index+1]}`).focus();
+        }
+      });
+    }
+    $(`#${idList[0]}`).keydown(function(event) {
+      if (event.keyCode === 13) { // 13はエンターキーのキーコード
+        event.preventDefault(); // デフォルトのイベント（通常のフォームの送信など）をキャンセル
+        // エンターキーが押されたときの処理をここに記述
+        $(`#main_first_comment`).focus();
+      }
+    });
+    $(`#${idList[idList.length - 1]}`).keydown(function(event) {
+      if (event.keyCode === 13) { // 13はエンターキーのキーコード
+        event.preventDefault(); // デフォルトのイベント（通常のフォームの送信など）をキャンセル
+        // エンターキーが押されたときの処理をここに記述
+        $(`#main_second_comment`).focus();
+      }
+    });
+  }
+
+  $("input").on("change", function(){
+    save();
+  });
+  $("textarea").on("change", function(){
+    save();
+  });
+  $(".to-time").on("change", function(){
+    updateNextStartTime(this);
+    setEnter();
+  });
+
+  function checkSentenceEnding(text) {
+    if(text == ""){
+      return true;
+    }
+    // 文を句点などで分割して配列に格納
+    const sentences = text.split(/。|！|？|⁉|⁈/);
+    // 返り値用の変数を定義
+    var ret = true;
+
+    // 各文に対して判定を行う
+    for (let sentence of sentences) {
+      if(sentence != ""){
+        // 文末が「です」、「ます」、「でした」、「ました」であるかを判定する正規表現パターン
+        var pattern = /(です|ます|でした|ました)$/;
+        
+        // 文末が正規表現パターンにマッチするかをチェック
+        var isMatched = pattern.test(sentence);
+
+        if (!isMatched) {
+          ret = false;
+          break;
+        }
+      }
+    }
+
+    // いずれかの文にマッチしなかった場合はfalseを返す
+    return ret;
+  }
+
+</script>
+
+<% if action_name == "new" || request.path_info == "/" %>
+  <script>
+    isFirst = true;
+  </script>
+<% end %>

@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @learned_list %>
+
+<div>
+  <%= link_to "Edit this learned list", edit_learned_list_path(@learned_list) %> |
+  <%= link_to "Back to learned lists", learned_lists_path %>
+
+  <%= button_to "Destroy this learned list", @learned_list, method: :delete %>
+</div>

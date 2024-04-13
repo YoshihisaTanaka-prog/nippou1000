@@ -1,0 +1,63 @@
+<h2>Sign up</h2>
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+
+  <div class="field">
+    <%= f.label :name, autofocus: true %><br>
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :kana %><br>
+    <%= f.text_field :kana %>
+  </div>
+
+  <div class="field">
+    <%= f.label :sign %><br>
+    <%= f.text_area :sign %>
+  </div>
+
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.email_field :email, autocomplete: "email" %>
+  </div>
+  
+  <div class="field">
+    <%= f.label "入社年度" %><br />
+    <%= f.number_field :grade, value: Time.now.year %>
+  </div>
+
+  <div class="field">
+    <%= f.label "所属" %><br />
+    <%= f.text_field :affiliation %>
+  </div>
+
+  <div>
+    <%= f.label "一人称" %><br>
+    <%= f.collection_select :first_person_id, FirstPerson.where(is_base: false), :id, :name, include_blank: "選択して下さい" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password %>
+    <% if @minimum_password_length %>
+    <em>(<%= @minimum_password_length %> characters minimum)</em>
+    <% end %><br />
+    <%= f.password_field :password, autocomplete: "new-password" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Sign up" %>
+  </div>
+<% end %>
+
+<%= render "devise/shared/links" %>
+
+<script>
+  $.fn.autoKana('#user_name', '#user_kana', {katakana: true});
+</script>

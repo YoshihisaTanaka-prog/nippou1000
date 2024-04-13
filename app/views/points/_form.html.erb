@@ -1,0 +1,27 @@
+<%= form_with(model: point) do |form| %>
+  <% if point.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(point.errors.count, "error") %> prohibited this point from being saved:</h2>
+
+      <ul>
+        <% point.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :text, style: "display: block" %>
+    <%= form.text_field :text %>
+  </div>
+
+  <div>
+    <%= form.label :is_good, style: "display: block" %>
+    <%= form.check_box :is_good %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

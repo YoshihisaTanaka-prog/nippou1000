@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @first_person %>
+
+<div>
+  <%= link_to "Edit this first person", edit_first_person_path(@first_person) %> |
+  <%= link_to "Back to first people", first_people_path %>
+
+  <%= button_to "Destroy this first person", @first_person, method: :delete %>
+</div>

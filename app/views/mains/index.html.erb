@@ -1,0 +1,20 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>日報履歴</h1>
+
+<center>
+<%= link_to "+", new_main_path %>
+</center>
+
+<div id="mains">
+  <% @mains.each do |main| %>
+    <p>
+      日報　2024新卒 DX支援本部　No.<%= main.vol %>　<%= main.title %>　
+      <%= link_to "編集", edit_main_path(main.id) %>
+    </p>
+  <% end %>
+</div>
+
+<center>
+<%= link_to "+", new_main_path %>
+</centr>

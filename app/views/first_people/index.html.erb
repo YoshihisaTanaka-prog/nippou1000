@@ -1,0 +1,19 @@
+<br>
+<%= link_to "Topへ", root_path %>
+
+<p style="color: green"><%= notice %></p>
+
+<h1>First people</h1>
+
+<%= link_to "New first person", new_first_person_path %>
+
+<div id="first_people">
+  <% @first_people.each do |first_person| %>
+    <%= render first_person %>
+    <p>
+      <%= link_to "Show this first person", first_person %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New first person", new_first_person_path %>

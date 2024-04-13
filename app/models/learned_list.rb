@@ -1,0 +1,2 @@
+class LearnedList < ApplicationRecord
+end

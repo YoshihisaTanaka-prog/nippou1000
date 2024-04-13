@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Learned lists</h1>
+
+<div id="learned_lists">
+  <% @learned_lists.each do |learned_list| %>
+    <%= render learned_list %>
+    <p>
+      <%= link_to "Show this learned list", learned_list %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New learned list", new_learned_list_path %>

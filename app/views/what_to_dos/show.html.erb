@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @what_to_do %>
+
+<div>
+  <%= link_to "Edit this what to do", edit_what_to_do_path(@what_to_do) %> |
+  <%= link_to "Back to what to dos", what_to_dos_path %>
+
+  <%= button_to "Destroy this what to do", @what_to_do, method: :delete %>
+</div>

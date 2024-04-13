@@ -1,0 +1,2 @@
+class WhatToDo < ApplicationRecord
+end
