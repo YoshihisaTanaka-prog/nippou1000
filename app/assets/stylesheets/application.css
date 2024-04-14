@@ -27,3 +27,13 @@
   margin-block-start: 0;
   margin-block-end: 0;
  }
+
+ input[type='text']{
+  width: 50vw;
+ }
+
+ textarea{
+  resize: none;
+  width: 50vw;
+  height: 15em;
+ }
