@@ -22,4 +22,7 @@ test:
 
 production:
   <<: *default
-  database: storage/production.sqlite3
+  database: db/db_production
+  username: mysql
+  password: ENV['DB_PASSWORD']
+  host: localhost
