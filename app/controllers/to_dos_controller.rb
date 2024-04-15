@@ -3,7 +3,7 @@ class ToDosController < ApplicationController
 
   # GET /to_dos or /to_dos.json
   def index
-    @to_dos = ToDo.whwre(user_id: current_user.id)
+    @to_dos = ToDo.where(user_id: current_user.id)
   end
 
   # GET /to_dos/1 or /to_dos/1.json
