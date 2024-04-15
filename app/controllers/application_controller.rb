@@ -1,4 +1,4 @@
-ailclass ApplicationController < ActionController::Base
+class ApplicationController < ActionController::Base
 
   before_action :confirm_user, unless: :devise_controller?
   before_action :configure_permitted_parameters, if: :devise_controller?
