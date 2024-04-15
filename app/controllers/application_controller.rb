@@ -23,6 +23,7 @@ class ApplicationController < ActionController::Base
     # ユーザー名の編集を許可する場合
     devise_parameter_sanitizer.permit(:account_update, keys: [:name, :kana, :sign, :affiliation, :grade ,:first_person_id, :vol])
     devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :kana, :sign, :affiliation, :grade ,:first_person_id, :vol])
+    devise_parameter_sanitizer.permit(:sign_in,keys:[:email])
   end
 
 end
