@@ -97,7 +97,7 @@
 
   <h3>やりたいこと</h3>
   <div id="todos">
-    <% ToDo.where(is_finished: false).where.not(main_id: main.id).order(:time_limit).each do |todo| %>
+    <% ToDo.where(is_finished: false).where.not(main_id: main.id).where(user_id: current_user.id).order(:time_limit).each do |todo| %>
       <div>
         ・<%= link_to todo.name, edit_to_do_path(todo.id) %><br>
         　期限　<%= todo.time_limit %>
