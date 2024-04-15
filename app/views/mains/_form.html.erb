@@ -297,7 +297,6 @@
     const params = getFormData();
     setCSRFtoken();
     $.post(`${$("#main-form").attr("action")}.json`, params, function(data){
-      console.log(data);
       $("#main-form").append('<input type="hidden" name="_method" value="patch" autocomplete="off">');
       setEnter();
       for(let index in data.what_to_dos){
