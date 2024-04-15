@@ -3,7 +3,7 @@ class ToDosController < ApplicationController
 
   # GET /to_dos or /to_dos.json
   def index
-    @to_dos = ToDo.all
+    @to_dos = ToDo.whwre(user_id: current_user.id)
   end
 
   # GET /to_dos/1 or /to_dos/1.json
@@ -61,6 +61,9 @@ class ToDosController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_to_do
       @to_do = ToDo.find(params[:id])
+      unless @to_do.user_id == current_user.id
+        redirect_to to_dos_path
+      end
     end
 
     # Only allow a list of trusted parameters through.
