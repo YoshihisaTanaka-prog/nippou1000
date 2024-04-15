@@ -15,7 +15,7 @@ class MainsController < ApplicationController
       @todos.push(todo)
       todo_ids.push(todo.id)
     end
-    ToDo.where(is_finished: false).each do |todo|
+    ToDo.where(is_finished: false).where(user_id: current_user.id).each do |todo|
       unless todo_ids.include?(todo.id)
         @todos.push(todo)
       end
