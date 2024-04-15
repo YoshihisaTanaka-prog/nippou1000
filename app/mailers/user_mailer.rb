@@ -1,6 +1,6 @@
 class UserMailer < ApplicationMailer
-  def nippou_email(param)
+  def nippou_email(param, email)
     @text = param[:text]
-    mail(to: current_user.email, subject: param[:title])
+    mail(to: email, subject: param[:title])
   end
 end

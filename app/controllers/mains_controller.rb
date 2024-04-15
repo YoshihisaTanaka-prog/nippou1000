@@ -85,7 +85,7 @@ class MainsController < ApplicationController
   end
 
   def send_mail
-    UserMailer.nippou_email(params).deliver_now
+    UserMailer.nippou_email(params, current_user.email).deliver_now
     redirect_to mains_path
   end
 
