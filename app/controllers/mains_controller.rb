@@ -1,5 +1,6 @@
 class MainsController < ApplicationController
   before_action :set_main, only: %i[ show edit update destroy ]
+  after_action :set_todo_user_id, only: %i[ create update ]
 
   # GET /mains or /mains.json
   def index
@@ -101,6 +102,13 @@ class MainsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def main_params
       params.require(:main).permit(:title, :first_comment, :second_comment, to_dos_attributes: [:id, :name, :time_limit], points_attributes: [:id, :text, :is_good], what_to_dos_attributes: [:id, :name, :from_time, :to_time], learned_lists_attributes: [:id, :text, :is_learned])
+    end
+
+    def set_todo_user_id
+      @main.to_dos.each do |todo|
+        todo.user_id = current_user.id
+        todo.save
+      end
     end
 
     def validate_main
