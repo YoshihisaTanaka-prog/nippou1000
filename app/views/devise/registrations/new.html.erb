@@ -33,6 +33,11 @@
     <%= f.text_field :affiliation %>
   </div>
 
+  <div class="field">
+    <%= f.label "最後のメール番号" %><br />
+    <%= f.number_field :vol %>
+  </div>
+
   <div>
     <%= f.label "一人称" %><br>
     <%= f.collection_select :first_person_id, FirstPerson.where(is_base: false), :id, :name, include_blank: "選択して下さい" %>
