@@ -22,6 +22,7 @@ test:
 
 production:
   <<: *default
+  adapter: mysql2
   database: db/db_production
   username: mysql
   password: ENV['DB_PASSWORD']
