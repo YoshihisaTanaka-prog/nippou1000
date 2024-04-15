@@ -3,7 +3,7 @@ class MainsController < ApplicationController
 
   # GET /mains or /mains.json
   def index
-    @mains = Main.all.order(vol: :desc)
+    @mains = Main.where(user_id: current_user.id).order(vol: :desc)
   end
 
   # GET /mains/1 or /mains/1.json
@@ -93,6 +93,9 @@ class MainsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_main
       @main = Main.find(params[:id])
+      if @main.user_id != current_user.id
+        redirect_to mains_path
+      end
     end
 
     # Only allow a list of trusted parameters through.
