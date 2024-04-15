@@ -38,7 +38,7 @@ class ToDosController < ApplicationController
   def update
     respond_to do |format|
       if @to_do.update(to_do_params)
-        format.html { redirect_to to_do_url(@to_do), notice: "To do was successfully updated." }
+        format.html { redirect_to edit_main_path(current_user.mains.last), notice: "To do was successfully updated." }
         format.json { render :show, status: :ok, location: @to_do }
       else
         format.html { render :edit, status: :unprocessable_entity }
