@@ -1,6 +1,4 @@
-<br>
-<%= @basic_first_people %>
-<hr>
+<br><hr>
 <div id="<%= dom_id main %>">
   <form action="/send" method="post" accept-charset="UTF-8">
     <input type="hidden" name="authenticity_token">
@@ -22,7 +20,7 @@
 
 〇業務内容
 <% main.what_to_dos.order(:from_time).each do |w| %>
-　・<%= w.name.scan(/.{1,18}/).join("\n　　") %>
+　・<%= w.name.change_first_person(@basic_first_people, current_user.first_person).scan(/.{1,18}/).join("\n　　") %>
 　　<%= w.from_time.strftime('%H:%M') %>～<%= w.to_time.strftime('%H:%M') %>
 <% end %>
 
@@ -31,7 +29,7 @@
 ※※※　　要追加　　※※※
 <% else %>
 <% main.learned_lists.where(is_learned: 0).order(:id).each do |l| %>
-　・<%= l.text.gsub("\n", "\n　　").scan(/.{1,18}/).join("\n　　") %>
+　・<%= l.text.change_first_person(@basic_first_people, current_user.first_person).gsub("\n", "\n　　").scan(/.{1,18}/).join("\n　　") %>
 <% end %>
 <% end %>
 
@@ -40,36 +38,36 @@
 ※※※　　要追加　　※※※
 <% else %>
 <% main.learned_lists.where(is_learned: 1).order(:id).each do |l| %>
-　・<%= l.text.gsub("\n", "\n　　").scan(/.{1,18}/).join("\n　　") %>
+　・<%= l.text.change_first_person(@basic_first_people, current_user.first_person).gsub("\n", "\n　　").scan(/.{1,18}/).join("\n　　") %>
 <% end %>
 <% end %>
-
 <% unless main.points.where(is_good: 0).length == 0 %>
+
 〇良かった点
 <% main.points.where(is_good: 0).order(:id).each do |p| %>
-　・<%= p.text.scan(/.{1,18}/).join("\n　　") %>
+　・<%= p.text.change_first_person(@basic_first_people, current_user.first_person).scan(/.{1,18}/).join("\n　　") %>
 <% end %>
 <% end %>
-
 <% unless main.points.where(is_good: 1).length == 0 %>
+
 〇悪かった点
 <ul>
 <% main.points.where(is_good: 1).order(:id).each do |p| %>
-　・<%= p.text.scan(/.{1,18}/).join("\n　　") %>
+　・<%= p.text.change_first_person(@basic_first_people, current_user.first_person).scan(/.{1,18}/).join("\n　　") %>
 <% end %>
 <% end %>
-
 <% unless @todos.length == 0 %>
+
 〇やりたいこと
 <% @todos.each do |t| %>
-　・<%= t.name.scan(/.{1,18}/).join("\n　　") %>
+　・<%= t.name.change_first_person(@basic_first_people, current_user.first_person).scan(/.{1,18}/).join("\n　　") %>
 <% if t.time_limit %>
 　　期限：<%= t.time_limit.strftime('%Y/%m/%d %H:%M') %>
 <% end %>
 <% end %>
 <% end %>
 
-<%= main.second_comment.scan(/.{1,20}/).join("\n") %>
+<%= main.second_comment.change_first_person(@basic_first_people, current_user.first_person).scan(/.{1,20}/).join("\n") %>
 
 以上です。
 本日もお読みいただき、
