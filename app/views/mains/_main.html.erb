@@ -28,7 +28,10 @@
 <% if main.learned_lists.where(is_learned: 0).length == 0 %>
 ※※※　　要追加　　※※※
 <% else %>
-<% main.learned_lists.where(is_learned: 0).order(:id).each do |l| %>
+<% main.learned_lists.where(is_learned: 0).order(:id).each_with_index do |l,i| %>
+<% unless i == 0 %>
+
+<% end %>
 　・<%= l.text.change_first_person(@basic_first_people, current_user.first_person).gsub("\n", "\n　　").scan(/.{1,18}/).join("\n　　") %>
 <% end %>
 <% end %>
@@ -37,7 +40,10 @@
 <% if main.learned_lists.where(is_learned: 0).length == 0 %>
 ※※※　　要追加　　※※※
 <% else %>
-<% main.learned_lists.where(is_learned: 1).order(:id).each do |l| %>
+<% main.learned_lists.where(is_learned: 1).order(:id).each_with_index do |l,i| %>
+<% unless i == 0 %>
+
+<% end %>
 　・<%= l.text.change_first_person(@basic_first_people, current_user.first_person).gsub("\n", "\n　　").scan(/.{1,18}/).join("\n　　") %>
 <% end %>
 <% end %>
