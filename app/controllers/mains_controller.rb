@@ -87,7 +87,8 @@ class MainsController < ApplicationController
 
   def send_mail
     UserMailer.nippou_email(params, current_user.email).deliver_now
-    redirect_to "https://atnd.ak4.jp/ja/login", allow_other_host: true
+    redirect_to main_path
+    #redirect_to "https://atnd.ak4.jp/ja/login?next=%2Fja%2Fsp%2Fmypage%2Fpunch", allow_other_host: true
   end
 
   private
