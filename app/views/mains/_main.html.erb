@@ -4,7 +4,7 @@
     <input type="hidden" name="authenticity_token">
     <p>
       <strong>件名</strong><br>
-      <input type="text" name="title" style="width: 100%" value="日報　<%= current_user.grade %><%= "新卒" if current_user.grade == Time.now.year %>　<%= current_user.affiliation %>　No.<%= main.vol %>　<%= main.title %>">
+      <input type="text" name="title" style="width: 100%" value="日報　<%= current_user.grade %><%= "新卒" if current_user.grade == Time.now.year %>　<%= current_user.affiliation %>　No.<%= main.vol %>　<%= main.title.change_first_person(@basic_first_people, current_user.first_person) %>">
     </p>
 
     <hr>
