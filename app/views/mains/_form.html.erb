@@ -63,7 +63,7 @@
   <div id="learned-list">
     <%= form.fields_for :learned_lists do |l| %>
       <div>
-        ・<%= l.text_area :text %><br>
+        ・<%= l.text_area :text, class: "slim-textarea" %><br>
         
         <% if l.object.is_learned.blank? %>
           　学んだこと<%= l.range_field :is_learned, min:0, max:1, value: "0", class: "switch" %>感じたこと
@@ -240,7 +240,7 @@
     const length = Number($("#learned-list-length").val());
     $("#learned-list").append(`
       <div>
-      ・<textarea name="main[learned_lists_attributes][${length}][text]" id="main_learned_lists_attributes_${length}_text"></textarea><br>
+      ・<textarea name="main[learned_lists_attributes][${length}][text]" id="main_learned_lists_attributes_${length}_text" class="slim-textarea"></textarea><br>
       　学んだこと<input min="0" max="1" value="0" class="switch" type="range" name="main[learned_lists_attributes][${length}][is_learned]" id="main_learned_lists_attributes_${length}_is_learned">感じたこと
       </div>
     `);
