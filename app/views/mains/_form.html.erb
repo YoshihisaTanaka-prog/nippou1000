@@ -133,6 +133,10 @@
 <% end %>
 
 <script>
+  var isFirst = false;
+  var isSaving = false;
+  setEnter();
+
   function confirmAndSubmit(){
     var isExistsDaDearu = false;
     var isExistsNull = false;
@@ -190,9 +194,6 @@
       $("#main-form").submit();
     }
   }
-
-  var isFirst = false;
-  setEnter();
   function getFormData(){
     const paramArray = $("#main-form").serializeArray();
     var param = {}
@@ -294,52 +295,56 @@
   }
   
   function save() {
-    const params = getFormData();
-    setCSRFtoken();
-    $.post(`${$("#main-form").attr("action")}.json`, params, function(data){
-      $("#main-form").append('<input type="hidden" name="_method" value="patch" autocomplete="off">');
-      setEnter();
-      for(let index in data.what_to_dos){
-        const id = `#main_what_to_dos_attributes_${index}_id`
-        const idNum = data.what_to_dos[index].id;
-        if($(id).length){
-          $(id).val(idNum);
-        } else{
-          $("#what-to-do").append(`<input autocomplete="off" type="hidden" value="${idNum}" name="main[what_to_dos_attributes][${index}][id]" id="main_what_to_dos_attributes_${index}_id">`);
+    if(!isSaving){
+      isSaving=true;
+      const params = getFormData();
+      setCSRFtoken();
+      $.post(`${$("#main-form").attr("action")}.json`, params, function(data){
+        $("#main-form").append('<input type="hidden" name="_method" value="patch" autocomplete="off">');
+        setEnter();
+        for(let index in data.what_to_dos){
+          const id = `#main_what_to_dos_attributes_${index}_id`
+          const idNum = data.what_to_dos[index].id;
+          if($(id).length){
+            $(id).val(idNum);
+          } else{
+            $("#what-to-do").append(`<input autocomplete="off" type="hidden" value="${idNum}" name="main[what_to_dos_attributes][${index}][id]" id="main_what_to_dos_attributes_${index}_id">`);
+          }
         }
-      }
-      for(let index in data.learned_lists){
-        const id = `#main_learned_lists_attributes_${index}_id`
-        const idNum = data.learned_lists[index].id;
-        if($(id).length){
-          $(id).val(idNum);
-        } else{
-          $("#learned-list").append(`<input autocomplete="off" type="hidden" value="${idNum}" name="main[learned_lists_attributes][${index}][id]" id="main_learned_lists_attributes_${index}_id">`);
+        for(let index in data.learned_lists){
+          const id = `#main_learned_lists_attributes_${index}_id`
+          const idNum = data.learned_lists[index].id;
+          if($(id).length){
+            $(id).val(idNum);
+          } else{
+            $("#learned-list").append(`<input autocomplete="off" type="hidden" value="${idNum}" name="main[learned_lists_attributes][${index}][id]" id="main_learned_lists_attributes_${index}_id">`);
+          }
         }
-      }
-      for(let index in data.points){
-        const id = `#main_points_attributes_${index}_id`
-        const idNum = data.points[index].id;
-        if($(id).length){
-          $(id).val(idNum);
-        } else{
-          $("#points").append(`<input autocomplete="off" type="hidden" value="${idNum}" name="main[points_attributes][${index}][id]" id="main_points_attributes_${index}_id">`);
+        for(let index in data.points){
+          const id = `#main_points_attributes_${index}_id`
+          const idNum = data.points[index].id;
+          if($(id).length){
+            $(id).val(idNum);
+          } else{
+            $("#points").append(`<input autocomplete="off" type="hidden" value="${idNum}" name="main[points_attributes][${index}][id]" id="main_points_attributes_${index}_id">`);
+          }
         }
-      }
-      for(let index in data.to_dos){
-        const id = `#main_to_dos_attributes_${index}_id`
-        const idNum = data.to_dos[index].id;
-        if($(id).length){
-          $(id).val(idNum);
-        } else{
-          $("#todos").append(`<input autocomplete="off" type="hidden" value="${idNum}" name="main[to_dos_attributes][${index}][id]" id="main_to_dos_attributes_${index}_id">`);
+        for(let index in data.to_dos){
+          const id = `#main_to_dos_attributes_${index}_id`
+          const idNum = data.to_dos[index].id;
+          if($(id).length){
+            $(id).val(idNum);
+          } else{
+            $("#todos").append(`<input autocomplete="off" type="hidden" value="${idNum}" name="main[to_dos_attributes][${index}][id]" id="main_to_dos_attributes_${index}_id">`);
+          }
         }
-      }
-      if(isFirst){
-        $("#main-form").attr("action", `/mains/${data.id}`);
-        isFirst = false;
-      }
-    });
+        isSaving = false;
+        if(isFirst){
+          $("#main-form").attr("action", `/mains/${data.id}`);
+          isFirst = false;
+        }
+      });
+    }
   }
 
   function setEnter() {
