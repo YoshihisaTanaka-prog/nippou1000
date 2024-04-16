@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
 
   def add_basic_first_people
     @basic_first_people = []
-    FirstPerson.where(is_base: true).each do |fp|
+    FirstPerson.where.not(id: current_user.first_person_id).each do |fp|
       @basic_first_people.push(fp.name)
     end
   end
