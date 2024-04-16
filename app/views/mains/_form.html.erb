@@ -42,7 +42,7 @@
     <%= form.fields_for :what_to_dos do |w| %>
       <div>
         ・<%= w.text_field :name %>
-        <%= w.label "　時間" %>
+        <%= w.label "　時間：" %>
         
         <% if index == 0 %>
           <%= w.time_field :from_time %>
