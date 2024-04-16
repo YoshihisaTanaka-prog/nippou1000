@@ -92,6 +92,7 @@ class MainsController < ApplicationController
   end
 
   def redirect
+    render :layout => 'redirect'
   end
 
   private
