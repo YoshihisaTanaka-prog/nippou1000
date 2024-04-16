@@ -51,7 +51,6 @@
 <% unless main.points.where(is_good: 1).length == 0 %>
 
 〇悪かった点
-<ul>
 <% main.points.where(is_good: 1).order(:id).each do |p| %>
 　・<%= p.text.change_first_person(@basic_first_people, current_user.first_person).scan(/.{1,18}/).join("\n　　") %>
 <% end %>
