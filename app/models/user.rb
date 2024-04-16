@@ -3,7 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-  has_many :mains, ->{ order(id: :asc) }, dependent: :destroy
+  has_many :mains, ->{ order(vol: :asc) }, dependent: :destroy
 
   validates :first_person_id, presence: true
 
