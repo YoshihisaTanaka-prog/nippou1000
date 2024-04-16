@@ -401,7 +401,7 @@
     for (let sentence of sentences) {
       if(sentence != ""){
         // 文末が「です」、「ます」、「でした」、「ました」であるかを判定する正規表現パターン
-        var pattern = /(です|ます|でした|ました)$/;
+        var pattern = /(です|ます|でした|ました|ください)$/;
         
         // 文末が正規表現パターンにマッチするかをチェック
         var isMatched = pattern.test(sentence);
