@@ -32,6 +32,14 @@
   width: 50vw;
  }
 
+ input[type='email']{
+  width: 50vw;
+ }
+ 
+ input[type='password']{
+  width: 50vw;
+ }
+
  textarea{
   resize: none;
   width: 50vw;
