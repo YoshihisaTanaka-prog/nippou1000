@@ -14,6 +14,8 @@ Rails.application.routes.draw do
 
   post "send", to: "mains#send_mail"
 
+  get "redirect", to: "mains#redirect"
+
   # Defines the root path route ("/")
   root "mains#new"
 end
