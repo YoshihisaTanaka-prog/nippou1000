@@ -193,7 +193,7 @@
     <%= link_to "使い方", "https://docs.google.com/presentation/d/1-wF1wUzpAckKl8ytzZTL-NflS3bph_P8EKCtCSDz69I/edit?usp=sharing", class: "big" %>
     <%= button_to "ログアウト", destroy_user_session_path, method: :delete if user_signed_in? %>
     <%= link_to "ユーザ情報の編集", edit_user_registration_path if user_signed_in? %>
-    <h1 style="color: #f00;">外部システムなので社外秘の情報は入力しないこと！</h1>
+    <h1 style="color: #f00; text-align: center;">外部システムなので社外秘の情報は入力しないこと！</h1>
     <%= yield %>
   </body>
   <script>
