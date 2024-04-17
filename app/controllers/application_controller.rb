@@ -2,14 +2,17 @@ class ApplicationController < ActionController::Base
 
   before_action :confirm_user, unless: :devise_controller?
   before_action :configure_permitted_parameters, if: :devise_controller?
-  before_action :add_basic_first_people, unless: :devise_controller?
+  before_action :initial_set, unless: :devise_controller?
 
   protected
 
-  def add_basic_first_people
+  def initial_set
     @basic_first_people = []
     FirstPerson.where.not(id: current_user.first_person_id).each do |fp|
       @basic_first_people.push(fp.name)
+    end
+    if session[:did_alert_akashi].nil?
+      session[:did_alert_akashi] = false
     end
   end
 
