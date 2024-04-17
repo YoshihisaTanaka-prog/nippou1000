@@ -186,6 +186,26 @@
           }
         });
       }
+      function getGetParams(key, isArray = false) {
+        const arr = window.location.search.split("?")
+        if(arr.length == 0){
+          return null;
+        }
+        var params = {};
+        for(let element of arr[1].split("&")){
+          let elemArr = element.split("=");
+          if(isArray){
+            if(params[elemArr[0]] == null){
+              params[elemArr[0]] = [JSON.parse(elemArr[1])];
+            } else {
+              params[elemArr[0]].push(JSON.parse(elemArr[1]));
+            }
+          } else{
+            params[elemArr[0]] = JSON.parse(elemArr[1]);
+          }
+        }
+        return params[key];
+      }
     </script>
   </head>
 

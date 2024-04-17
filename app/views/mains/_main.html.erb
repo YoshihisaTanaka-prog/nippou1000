@@ -117,6 +117,8 @@
       isAbleToSend = confirm("本文中に算用数字と漢数字が含まれています。\nそれでも送信しますか？");
       if(isAbleToSend){
         $("#mail").submit();
+      } else {
+        location.href = location.href + "/edit?confirmNum=true";
       }
     }
   }
