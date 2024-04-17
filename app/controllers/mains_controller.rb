@@ -87,7 +87,7 @@ class MainsController < ApplicationController
 
   def send_mail
     UserMailer.nippou_email(params, current_user.email).deliver_now
-    redirect_to redirect_path(url: "https://atnd.ak4.jp/ja/login?next=%2Fja%2Fsp%2Fmypage%2Fpunch", msg:"打刻も忘れずに！")
+    redirect_to redirect_path(url: "https://atnd.ak4.jp/ja/login?next=%2Fja%2Fmypage%2Fpunch", msg:"打刻も忘れずに！")
   end
 
   def redirect
