@@ -1,6 +1,6 @@
 <br><hr>
 <div id="<%= dom_id main %>">
-  <form action="/send" method="post" accept-charset="UTF-8">
+  <form action="/send" method="post" accept-charset="UTF-8" id="mail">
     <input type="hidden" name="authenticity_token">
     <p>
       <strong>件名</strong><br>
@@ -11,7 +11,7 @@
     
     <div>
       <strong>本文</strong><br>
-      <textarea name="text" style="width: 100%; height: 15em;">
+      <textarea name="text" id="text" style="width: 100%; height: 15em;">
 みなさま
 <%= current_user.name %>[<%= current_user.kana %>]です。
 本日の<%= current_user.first_person %>の日報をお送りします。
@@ -83,7 +83,30 @@
 <%= current_user.sign %>
       </textarea>
     </div>
-    <button>送信</button>
+    <button type="button" onclick="confirmAndSentEmail()">送信</button>
   </form>
 </div>
 <br><hr><br>
+
+<script>
+  function confirmAndSentEmail(){
+    var isAbleToSend = true;
+    const text = $("#text").val().split("<%= current_user.sign %>")[0];
+
+    var isIncludedNum = /\d/.test(text);
+    var isIncludedKanjiNum = /[\u3000-\u303F\u4E00-\u9FFF\uFF00-\uFFEF\u3005-\u3007\u3021-\u3029]/.test(text);
+
+    if(isIncludedNum && isIncludedKanjiNum){
+      isAbleToSend = false;
+    }
+
+    if(isAbleToSend){
+      $("#mail").submit();
+    } else{
+      isAbleToSend = confirm("本文中に算用数字と漢数字が含まれています。\nそれでも送信しますか？");
+      if(isAbleToSend){
+        $("#mail").submit();
+      }
+    }
+  }
+</script>
