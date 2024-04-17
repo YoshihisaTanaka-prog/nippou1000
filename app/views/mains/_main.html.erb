@@ -99,13 +99,15 @@
     if(isIncludedNum && isIncludedKanjiNum){
       isAbleToSend = false;
     }
+    console.log(isIncludedNum, isIncludedKanjiNum, isAbleToSend);
 
+    setCSRFtoken();
     if(isAbleToSend){
-      $("#mail").submit();
+      # $("#mail").submit();
     } else{
       isAbleToSend = confirm("本文中に算用数字と漢数字が含まれています。\nそれでも送信しますか？");
       if(isAbleToSend){
-        $("#mail").submit();
+        # $("#mail").submit();
       }
     }
   }
