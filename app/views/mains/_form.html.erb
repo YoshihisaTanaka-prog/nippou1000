@@ -221,7 +221,7 @@
       $("#what-to-do").append(`
         <div>
         ・<input type="text" name="main[what_to_dos_attributes][${length}][name]" id="main_what_to_dos_attributes_${length}_name">
-        <label for="main_what_to_dos_attributes_${length}_　時間">　時間</label>
+        <label for="main_what_to_dos_attributes_${length}_　時間">　時間：</label>
         <input type="hidden" name="main[what_to_dos_attributes][${length}][from_time]" id="main_what_to_dos_attributes_${length}_from_time" value="${$(`#main_what_to_dos_attributes_${length-1}_to_time`).val()}">
         <span id="from-${length}">${$(`#main_what_to_dos_attributes_${length-1}_to_time`).val().split(":")[0]}:${$(`#main_what_to_dos_attributes_${length-1}_to_time`).val().split(":")[1]}</span> ～ 
         <input type="time" name="main[what_to_dos_attributes][${length}][to_time]" id="main_what_to_dos_attributes_${length}_to_time">
