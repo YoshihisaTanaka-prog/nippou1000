@@ -194,6 +194,7 @@
       $("#main-form").submit();
     }
   }
+
   function getFormData(){
     const paramArray = $("#main-form").serializeArray();
     var param = {}
@@ -209,7 +210,7 @@
       $("#what-to-do").append(`
         <div>
         ・<input type="text" name="main[what_to_dos_attributes][0][name]" id="main_what_to_dos_attributes_0_name">
-        <label for="main_what_to_dos_attributes_0_　時間">　時間</label>
+        <label for="main_what_to_dos_attributes_0_　時間">　時間：</label>
         
           <input type="time" name="main[what_to_dos_attributes][0][from_time]" id="main_what_to_dos_attributes_0_from_time">
         ～
