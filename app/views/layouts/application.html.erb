@@ -187,8 +187,9 @@
         });
       }
       function getGetParams(key, isArray = false) {
-        const arr = window.location.search.split("?")
-        if(arr.length == 0){
+        console.log(window.location.search);
+        const arr = window.location.search.split("?");
+        if(arr.length == 1){
           return null;
         }
         var params = {};
