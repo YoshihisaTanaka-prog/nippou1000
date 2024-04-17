@@ -94,7 +94,7 @@
     const text = $("#text").val().split("<%= current_user.sign %>")[0];
 
     var isIncludedNum = /\d/.test(text);
-    var isIncludedKanjiNum = /[一二三四五六七八九〇十百千]/.test(text);
+    var isIncludedKanjiNum = /[一|二|三|四|五|六|七|八|九|〇|十|百|千]/.test(text);
 
     if(isIncludedNum && isIncludedKanjiNum){
       isAbleToSend = false;
