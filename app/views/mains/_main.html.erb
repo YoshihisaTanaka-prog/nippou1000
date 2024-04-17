@@ -83,18 +83,18 @@
 <%= current_user.sign %>
       </textarea>
     </div>
-    <button type="button" onclick="confirmAndSentEmail()">送信</button>
+    <button type="button" onclick="confirmAndSendEmail()">送信</button>
   </form>
 </div>
 <br><hr><br>
 
 <script>
-  function confirmAndSentEmail(){
+  function confirmAndSendEmail(){
     var isAbleToSend = true;
     const text = $("#text").val().split("<%= current_user.sign %>")[0];
 
     var isIncludedNum = /\d/.test(text);
-    var isIncludedKanjiNum = /[\u3000-\u303F\u4E00-\u9FFF\uFF00-\uFFEF\u3005-\u3007\u3021-\u3029]/.test(text);
+    var isIncludedKanjiNum = /[一二三四五六七八九〇十百千]/.test(text);
 
     if(isIncludedNum && isIncludedKanjiNum){
       isAbleToSend = false;
