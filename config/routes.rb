@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   post "send", to: "mains#send_mail"
 
   get "redirect", to: "mains#redirect"
+  post "set-akashi-alert", to: "mains#set_akashi_alert"
 
   # Defines the root path route ("/")
   root "mains#new"

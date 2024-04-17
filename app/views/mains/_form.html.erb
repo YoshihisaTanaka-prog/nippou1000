@@ -131,11 +131,12 @@
     <button type="button" onclick="confirmAndSubmit()">確認画面へ</button>
   </div>
 <% end %>
-
 <script>
   var isFirst = false;
   var isSaving = false;
+  var didAlertAkashi = <%= session[:did_alert_akashi].to_json.html_safe %>;
   setEnter();
+  alertAkashi();
 
   function confirmAndSubmit(){
     var isExistsDaDearu = false;
@@ -344,7 +345,22 @@
           $("#main-form").attr("action", `/mains/${data.id}`);
           isFirst = false;
         }
+        alertAkashi();
       });
+    }
+  }
+
+  function alertAkashi(){
+    if(!didAlertAkashi){
+      didAlertAkashi = true;
+      let needToOpenAkashi = confirm('打刻を忘れずに！n\AKASHIを開きますか？');
+      if( needToOpenAkashi ){
+        open("https://atnd.ak4.jp/ja/login?next=%2Fja%2Fmypage%2Fpunch");
+        setCSRFtoken();
+        $.post("/set-akashi-alert", {}, function(data){
+          console.log(data);
+        });
+      }
     }
   }
 

@@ -90,6 +90,11 @@ class MainsController < ApplicationController
     redirect_to redirect_path(url: "https://atnd.ak4.jp/ja/login?next=%2Fja%2Fmypage%2Fpunch", msg:"打刻も忘れずに！")
   end
 
+  def set_akashi_alert
+    session[:did_alert_akashi] = true
+    render json: "updated"
+  end
+
   def redirect
     render :layout => 'redirect'
   end
