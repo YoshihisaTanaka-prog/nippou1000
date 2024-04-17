@@ -91,7 +91,7 @@
 <script>
   function confirmAndSendEmail(){
     var isAbleToSend = true;
-    const text = $("#text").val().split("<%= current_user.sign %>")[0];
+    const text = $("#text").val().split("<%= current_user.sign.html_safe %>")[0];
 
     var isIncludedNum = false;
     for(let c in ["1","2","3","4","5","6","7","8","9","0"]){
