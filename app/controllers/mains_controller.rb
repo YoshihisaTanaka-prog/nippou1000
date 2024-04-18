@@ -4,6 +4,7 @@ class MainsController < ApplicationController
 
   # GET /mains or /mains.json
   def index
+    add_user_to_zoho_forms
     @mains = Main.where(user_id: current_user.id).order(vol: :desc)
     if current_user.email == ENV["ADMIN_EMAIL"]
       @users = []

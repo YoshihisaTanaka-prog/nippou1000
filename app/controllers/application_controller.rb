@@ -29,4 +29,25 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:sign_in,keys:[:email])
   end
 
+  def add_user_to_zoho_forms
+    if user_signed_in?
+      if current_user.email == ENV["ADMIN_EMAIL"]
+      session = Selenium::WebDriver.for :chrome
+      # 10秒待っても読み込まれない場合は、エラーが発生する
+      session.manage.timeouts.implicit_wait = 10
+      User.all.each do |user|
+        # ページ遷移する
+        session.get "https://forms.zohopublic.jp/yoshihiserver/form/Untitled/formperma/fJgNGwOnV0cZxK2VT98_3TckzIsOXw65jSHDIEEMHYU"
+        # "zenn"を自動入力する
+        session.find_elements(:name, 'Name').send_keys(user.name)
+        session.find_element(:id, 'Email-arialabel').send_keys(user.email)
+        session.find_element(:id, 'SingleLine-arialabel').send_keys(user.affiliation)
+        # 送信(検索)
+        session.find_elements(:tag_name, 'button').click
+      end
+      # ブラウザを終了
+      session.quit
+    end
+  end
+
 end

@@ -18,26 +18,3 @@
 <center>
 <%= link_to "+", new_main_path %>
 </center>
-
-<% if current_user.email == ENV["ADMIN_EMAIL"] %>
-  <div id="zoho-forms"></div>
-  <script>
-    const users = <%= @users.to_json.html_safe %>;
-    for(let i=0; i<users.length; i++) {
-      $("#zoho-forms").append(`<iframe id="zoho-form-${i+1}" frameborder="0" src="https://forms.zohopublic.jp/yoshihiserver/form/Untitled/formperma/fJgNGwOnV0cZxK2VT98_3TckzIsOXw65jSHDIEEMHYU"></iframe>`);
-    }
-    for(let i=0; i<users.length; i++) {
-      const user = users[i];
-      setTimeout(function() {
-        const elem = document.getElementById(`zoho-form-${i+1}`);
-        const targetForm = elem.contentWindow.document.querySelector('#test');
-        console.log( targetForm );
-        // $($(form).find('input[name="Name"]')).val(user.name);
-        // $($(form).find('#Email-arialabel')).val(user.email);
-        // $($(form).find('#SingleLine-arialabel')).val(user.affiliation);
-        // contents.find('#test').submit();
-        // $(`#zoho-form-${i+1}`).remove();
-      }, 5000);
-    }
-  </script>
-<% end %>
