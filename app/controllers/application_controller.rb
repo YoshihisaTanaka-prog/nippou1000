@@ -47,7 +47,7 @@ class ApplicationController < ActionController::Base
           session.find_element(:id, 'Email-arialabel').send_keys(user.email)
           session.find_element(:id, 'SingleLine-arialabel').send_keys(user.affiliation)
           # 送信
-          session.find_elements(:tag_name, 'button').each do|element|
+          session.find_elements(:tag_name, 'button').each do |element|
             element.click
           end
         end
