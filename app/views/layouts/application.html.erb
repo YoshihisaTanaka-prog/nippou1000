@@ -215,9 +215,12 @@
     <%= link_to "ユーザ情報の編集", edit_user_registration_path if user_signed_in? %>
     <h1 style="color: #f00; text-align: center;">外部システムなので社外秘の情報は入力しないこと！</h1>
     <%= yield %>
-
+    <div id="zoho-dummy"></div>
     <script type="text/javascript" id="zsiqchat">
-      console.log($("div").last.text());
+      var last = $("div:last");
+      if(last.attr("id") != "zoho-dummy"){
+        last.remove();
+      }
       var $zoho=$zoho || {};
       $zoho.salesiq = $zoho.salesiq || {
         widgetcode: "d30037192ca4ca1b2fd70380f5247bc8e62aa78b81354cd994ea78641b713a52",
