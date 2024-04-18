@@ -6,6 +6,7 @@ class MainsController < ApplicationController
   def index
     @mains = Main.where(user_id: current_user.id).order(vol: :desc)
     if current_user.email == ENV["ADMIN_EMAIL"]
+      @users = []
       User.all.each do |user|
         @users.push(user)
       end
