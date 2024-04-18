@@ -38,16 +38,24 @@ class ApplicationController < ActionController::Base
         # 10秒待っても読み込まれない場合は、エラーが発生する
         session.manage.timeouts.implicit_wait = 10
         User.all.each do |user|
+          logger.info "Adding user " + user.email
           # ページ遷移する
           session.get "https://forms.zohopublic.jp/yoshihiserver/form/Untitled/formperma/fJgNGwOnV0cZxK2VT98_3TckzIsOXw65jSHDIEEMHYU"
+          logger.info "test"
           # 自動入力する
+          logger.info "test"
           session.find_elements(:name, 'Name').each do |element|
+            logger.info "test-loop1"
             element.send_keys(user.name)
           end
+          logger.info "test"
           session.find_element(:id, 'Email-arialabel').send_keys(user.email)
+          logger.info "test"
           session.find_element(:id, 'SingleLine-arialabel').send_keys(user.affiliation)
           # 送信
+          logger.info "test"
           session.find_elements(:tag_name, 'button').each do |element|
+            logger.info "test-loop2"
             element.click
           end
         end
