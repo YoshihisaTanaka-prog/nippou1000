@@ -5,6 +5,11 @@ class MainsController < ApplicationController
   # GET /mains or /mains.json
   def index
     @mains = Main.where(user_id: current_user.id).order(vol: :desc)
+    if current_user.email == ENV["ADMIN_EMAIL"]
+      User.all.each do |user|
+        @users.push(user)
+      end
+    end
   end
 
   # GET /mains/1 or /mains/1.json
