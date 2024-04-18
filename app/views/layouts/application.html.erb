@@ -236,7 +236,15 @@
         t.parentNode.insertBefore(s,t);
         console.log("zoho");
       } else{
-        last.remove();
+        var isNeedToDelete = false;
+        $("div").each(function(){
+          if(isNeedToDelete){
+            $(this).remove;
+          }
+          if($(this).attr("id") == "zoho-dummy"){
+            isNeedToDelete = true;
+          }
+        })
       }
       $("input[name='authenticity_token']").val( $("meta[name='csrf-token']").attr("content") );
     </script>
