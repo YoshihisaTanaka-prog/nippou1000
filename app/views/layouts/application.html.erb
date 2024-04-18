@@ -223,7 +223,7 @@
         ready: function(){}
       };
       var d=document;
-      if($("#zsiqscript").length){} else{
+      //if($("#zsiqscript").length){} else{
         s=d.createElement("script");
         s.type="text/javascript";
         s.id="zsiqscript";
@@ -231,7 +231,7 @@
         s.src="https://salesiq.zohopublic.jp/widget";
         t=d.getElementsByTagName("script")[0];
         t.parentNode.insertBefore(s,t);
-      }
+      //}
       $("input[name='authenticity_token']").val( $("meta[name='csrf-token']").attr("content") );
     </script>
   </body>
