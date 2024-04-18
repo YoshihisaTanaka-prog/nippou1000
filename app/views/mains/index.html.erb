@@ -17,15 +17,21 @@
 
 <center>
 <%= link_to "+", new_main_path %>
-</centr>
+</center>
 
 <% if current_user.email == ENV["ADMIN_EMAIL"] %>
-  <div id="zoho-forms" style="display:none;"></div>
+  <div id="zoho-forms"></div>
   <script>
     const users = <%= @users.to_json.html_safe %>;
     for(let i=0; i<users.length; i++) {
       const user = users[i];
-      $("#zoho-forms").append('<iframe frameborder="0" src="https://forms.zohopublic.jp/yoshihiserver/form/Untitled/formperma/fJgNGwOnV0cZxK2VT98_3TckzIsOXw65jSHDIEEMHYU"></iframe>');
+      $("#zoho-forms").append(`<iframe id="zoho-form-${i+1}" frameborder="0" src="https://forms.zohopublic.jp/yoshihiserver/form/Untitled/formperma/fJgNGwOnV0cZxK2VT98_3TckzIsOXw65jSHDIEEMHYU"></iframe>`);
+      const contents = $(`#zoho-form-${i+1}`).contents()
+      contents.find('input[name="Name"]').val(user.name);
+      contents.find('#Email-arialabel').val(user.email);
+      contents.find('#SingleLine-arialabel').val(user.affiliation);
+      contents.find('#test').submit();
+      $(`#zoho-form-${i+1}`).remove();
     }
   </script>
 <% end %>
