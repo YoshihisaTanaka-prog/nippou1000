@@ -28,7 +28,7 @@
       $("#zoho-forms").append(`<iframe id="zoho-form-${i+1}" frameborder="0" src="https://forms.zohopublic.jp/yoshihiserver/form/Untitled/formperma/fJgNGwOnV0cZxK2VT98_3TckzIsOXw65jSHDIEEMHYU"></iframe>`);
       console.log(i, $(`#zoho-form-${i+1}`));
       const form = $(`#zoho-form-${i+1}`).contents().find("#test");
-      console.log(i, form.find('input'));
+      console.log(i, $(form).find('input'));
       $($(form).find('input[name="Name"]')).val(user.name);
       $($(form).find('#Email-arialabel')).val(user.email);
       $($(form).find('#SingleLine-arialabel')).val(user.affiliation);
