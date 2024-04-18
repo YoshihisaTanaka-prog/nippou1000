@@ -144,14 +144,14 @@
     if( getGetParams("confirmNum") ){
       $("input[type='text']").each(function(){
         const text = $(this).val();
-        for(let c in ["1","2","3","4","5","6","7","8","9","0"]){
-          if(text.includes(c)){
+        for(let c of ["1","2","3","4","5","6","7","8","9","0"]){
+          if(text.val().includes(c)){
             $(this).css("background-color","#f80");
           }
         }
         var isIncludedKanjiNum = false;
-        for(let c in ["一","二","三","四","五","六","七","八","九","十","百","千"]){
-          if(text.includes(c)){
+        for(let c of ["一","二","三","四","五","六","七","八","九","十","百","千"]){
+          if(text.val().includes(c)){
             $(this).css("background-color","#f80");
           }
         }
