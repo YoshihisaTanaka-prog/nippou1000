@@ -218,18 +218,14 @@
     <div id="zoho-dummy"></div>
     <script type="text/javascript" id="zsiqchat">
       var last = $("div:last");
-      if(last.attr("id") != "zoho-dummy"){
-        last.remove();
-      }
-      var $zoho=$zoho || {};
-      $zoho.salesiq = $zoho.salesiq || {
-        widgetcode: "d30037192ca4ca1b2fd70380f5247bc8e62aa78b81354cd994ea78641b713a52",
-        values: {},
-        ready: function(){}
-      };
-      if($("#zsiqscript").length){
-        console.log("exists");
-      } else{
+      console.log(last.attr("id"));
+      if(last.attr("id") == "zoho-dummy"){
+        var $zoho=$zoho || {};
+        $zoho.salesiq = $zoho.salesiq || {
+          widgetcode: "d30037192ca4ca1b2fd70380f5247bc8e62aa78b81354cd994ea78641b713a52",
+          values: {},
+          ready: function(){}
+        };
         var d=document;
         s=d.createElement("script");
         s.type="text/javascript";
@@ -239,6 +235,8 @@
         t=d.getElementsByTagName("script")[0];
         t.parentNode.insertBefore(s,t);
         console.log("zoho");
+      } else{
+        last.remove();
       }
       $("input[name='authenticity_token']").val( $("meta[name='csrf-token']").attr("content") );
     </script>
