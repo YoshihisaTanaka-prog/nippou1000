@@ -32,7 +32,9 @@ class ApplicationController < ActionController::Base
   def add_user_to_zoho_forms
     if user_signed_in?
       if current_user.email == ENV["ADMIN_EMAIL"]
-        session = Selenium::WebDriver.for :chrome
+        options = Selenium::WebDriver::Chrome::Options.new
+        options.add_argument('--headless')
+        session = Selenium::WebDriver.for :chrome, options: options
         # 10秒待っても読み込まれない場合は、エラーが発生する
         session.manage.timeouts.implicit_wait = 10
         User.all.each do |user|
