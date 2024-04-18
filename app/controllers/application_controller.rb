@@ -40,14 +40,16 @@ class ApplicationController < ActionController::Base
         User.all.each do |user|
           # ページ遷移する
           session.get "https://forms.zohopublic.jp/yoshihiserver/form/Untitled/formperma/fJgNGwOnV0cZxK2VT98_3TckzIsOXw65jSHDIEEMHYU"
-          # "zenn"を自動入力する
+          # 自動入力する
           session.find_elements(:name, 'Name').each do |element|
             element.send_keys(user.name)
           end
           session.find_element(:id, 'Email-arialabel').send_keys(user.email)
           session.find_element(:id, 'SingleLine-arialabel').send_keys(user.affiliation)
-          # 送信(検索)
-          session.find_elements(:tag_name, 'button').click
+          # 送信
+          session.find_elements(:tag_name, 'button').each do|element|
+            element.click
+          end
         end
         # ブラウザを終了
         session.quit
