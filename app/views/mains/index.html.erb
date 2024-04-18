@@ -28,9 +28,9 @@
       $("#zoho-forms").append(`<iframe id="zoho-form-${i+1}" frameborder="0" src="https://forms.zohopublic.jp/yoshihiserver/form/Untitled/formperma/fJgNGwOnV0cZxK2VT98_3TckzIsOXw65jSHDIEEMHYU"></iframe>`);
       const form = $(`#zoho-form-${i+1}`).contents().find("#test");
       console.log(form);
-      form.val(user.name);
-      form.find('#Email-arialabel').val(user.email);
-      form.find('#SingleLine-arialabel').val(user.affiliation);
+      $(form).find('#Email-arialabel').val(user.name);
+      $(form).find('#Email-arialabel').val(user.email);
+      $(form).find('#SingleLine-arialabel').val(user.affiliation);
       // contents.find('#test').submit();
       // $(`#zoho-form-${i+1}`).remove();
     }
