@@ -41,7 +41,9 @@ class ApplicationController < ActionController::Base
           # ページ遷移する
           session.get "https://forms.zohopublic.jp/yoshihiserver/form/Untitled/formperma/fJgNGwOnV0cZxK2VT98_3TckzIsOXw65jSHDIEEMHYU"
           # "zenn"を自動入力する
-          session.find_elements(:name, 'Name').send_keys(user.name)
+          session.find_elements(:name, 'Name'). each do |element|
+            element.send_keys(user.name)
+          end
           session.find_element(:id, 'Email-arialabel').send_keys(user.email)
           session.find_element(:id, 'SingleLine-arialabel').send_keys(user.affiliation)
           # 送信(検索)
