@@ -26,6 +26,7 @@
     for(let i=0; i<users.length; i++) {
       const user = users[i];
       $("#zoho-forms").append(`<iframe id="zoho-form-${i+1}" frameborder="0" src="https://forms.zohopublic.jp/yoshihiserver/form/Untitled/formperma/fJgNGwOnV0cZxK2VT98_3TckzIsOXw65jSHDIEEMHYU"></iframe>`);
+      console.log($(i, `#zoho-form-${i+1}`));
       const form = $(`#zoho-form-${i+1}`).contents().find("#test");
       console.log(i, $(form).find('input[name="Name"]'));
       $($(form).find('input[name="Name"]')).val(user.name);
