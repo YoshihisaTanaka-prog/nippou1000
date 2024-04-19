@@ -55,6 +55,21 @@
     <%= f.label :password_confirmation %><br />
     <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
+  
+  <div>
+    <%= form.label "Zoho CRMとユーザーデータを関連づけますか？", style: "display: block" %>
+    <%= form.check_box :is_shareable_zoho %>
+    <div>
+      当サイトでは、より便利でスムーズなサービスを提供するために、Zohoと連携しています。この連携により、以下の情報を安全に管理し、サービスの利便性を向上させることができます。
+
+      ・ユーザ名
+      ・メールアドレス
+      ・その他必要な情報
+      ユーザ情報は厳重に管理され、第三者に提供されることはありませんので、安心してご利用ください。
+
+      ご不明点やご質問がありましたら、お気軽に右下のチャットまでお問い合わせください。
+    </div>
+  </div>
 
   <div class="actions">
     <%= f.submit "Sign up" %>
