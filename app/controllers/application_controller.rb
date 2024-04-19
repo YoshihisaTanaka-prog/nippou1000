@@ -56,8 +56,10 @@ class ApplicationController < ActionController::Base
           # 送信
           logger.info "test"
           session.find_elements(:tag_name, 'button').each do |element|
-            logger.info "test-loop2"
-            element.click
+            if element.displayed? && element.enabled?
+              logger.info "test-loop2"
+              element.click
+            end
           end
         end
         # ブラウザを終了
