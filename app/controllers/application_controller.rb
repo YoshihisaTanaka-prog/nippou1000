@@ -41,12 +41,13 @@ class ApplicationController < ActionController::Base
           logger.info "Adding user " + user.email
           # ページ遷移する
           session.get "https://forms.zohopublic.jp/yoshihiserver/form/Untitled/formperma/fJgNGwOnV0cZxK2VT98_3TckzIsOXw65jSHDIEEMHYU"
+          sleep(2)
           logger.info "test"
           # 自動入力する
           logger.info "test"
           session.find_elements(:name, 'Name').each do |element|
             logger.info "test-loop1"
-            element.send_keys(user.name)
+            element.send_keys(user.kana)
           end
           logger.info "test"
           session.find_element(:id, 'Email-arialabel').send_keys(user.email)
