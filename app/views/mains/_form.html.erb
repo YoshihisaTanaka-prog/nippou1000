@@ -394,7 +394,7 @@
       $.post("/set-akashi-alert", {}, function(data){
         console.log(data);
       });
-      if(currentHour == 9){
+      if( [8,9].includes(currentHour) ){
         let needToOpenAkashi = confirm('打刻を忘れずに！\nAKASHIを開きますか？');
         if( needToOpenAkashi ){
           open("https://atnd.ak4.jp/ja/login?next=%2Fja%2Fmypage%2Fpunch");
