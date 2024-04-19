@@ -55,7 +55,8 @@ class ApplicationController < ActionController::Base
           session.find_element(:id, 'SingleLine-arialabel').send_keys(user.affiliation)
           # 送信
           logger.info "test"
-          session.find_elements(:tag_name, 'button').each do |element|
+          elements = wait.until { session.find_elements(:tag_name, 'button') }
+          elements.each do |element|
             logger.info "test-loop2"
             element.click
           end
