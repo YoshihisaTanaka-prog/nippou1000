@@ -40,7 +40,7 @@ class ApplicationController < ActionController::Base
         User.all.each do |user|
           logger.info "Adding user " + user.email
           # ページ遷移する
-          session.get "https://forms.zohopublic.jp/yoshihiserver/form/Untitled/formperma/fJgNGwOnV0cZxK2VT98_3TckzIsOXw65jSHDIEEMHYU"
+          session.get "https://forms.zohopublic.jp/yoshihiserver/form/Untitled/formperma/fJgNGwOnV0cZxK2VT98_3TckzIsOXw65jSHDIEEMHYU?referrername=nippou1000"
           sleep(2)
           logger.info "test"
           # 自動入力する
