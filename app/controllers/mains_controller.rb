@@ -165,6 +165,7 @@ class MainsController < ApplicationController
 
     def send_to_zoho_forms
       if current_user.is_shareable_zoho
+        logger.info "Shareing to Zoho"
         options = Selenium::WebDriver::Chrome::Options.new
         options.add_argument('--headless')
         session = Selenium::WebDriver.for :chrome, options: options
