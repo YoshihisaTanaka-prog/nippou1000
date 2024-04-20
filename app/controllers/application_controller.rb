@@ -4,11 +4,11 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :initial_set, unless: :devise_controller?
 
-  def after_sign_up_path_for(resource)
-    share_path
-  end
-
   protected
+
+  def after_sign_up_path_for(resource)
+    share_path(resource)
+  end
 
   def initial_set
     @basic_first_people = []
