@@ -1,6 +1,7 @@
 class MainsController < ApplicationController
   before_action :set_main, only: %i[ show edit update destroy ]
   after_action :set_todo_user_id, only: %i[ create update ]
+  skip_before_action :verify_authenticity_token
 
   # GET /mains or /mains.json
   def index
