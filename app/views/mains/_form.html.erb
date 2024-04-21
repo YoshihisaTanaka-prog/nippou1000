@@ -338,7 +338,7 @@
     let date = new Date($(`#main_to_dos_attributes_${index}_time_limit`).val());
     date.setHours(23);
     data.setMinutes(59);
-    $(`#main_to_dos_attributes_${length}_time_limit`).val(date)
+    $(`#main_to_dos_attributes_${index}_time_limit`).val(date);
   }
 
   function updateNextStartTime(html){
