@@ -407,7 +407,7 @@
   function finishedToDo(id){
     setCSRFtoken();
     $.post(`/to_dos/${id}.json`, {"_method": "patch", "to_do[is_finished]": "1"}, function(data){
-      console.log(data);
+      $(`#todo-${data.id}`).remove();
     });
   }
 
