@@ -98,7 +98,7 @@
   <h3>やりたいこと</h3>
   <div id="todos">
     <% ToDo.where(is_finished: false).where.not(main_id: main.id).where(user_id: current_user.id).order(:time_limit).each do |todo| %>
-      <div>
+      <div id="todo-<%= todo.id %>">
         ・<%= todo.name %><br>
         　<%= link_to "編集する", edit_to_do_path(todo.id) %>　<button type="button" onclick="finishedToDo(<%= todo.id %>)">達成</button><br>
         　期限　<%= todo.time_limit %>
@@ -406,7 +406,7 @@
 
   function finishedToDo(id){
     setCSRFtoken();
-    $.post(`/to_dos/${id}`, {"_method": "patch", "to_do[is_finished]": "1"}, function(data){
+    $.post(`/to_dos/${id}.json`, {"_method": "patch", "to_do[is_finished]": "1"}, function(data){
       console.log(data);
     });
   }
