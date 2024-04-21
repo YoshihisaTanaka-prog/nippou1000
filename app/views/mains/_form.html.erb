@@ -338,7 +338,7 @@
     let date = new Date($(`#main_to_dos_attributes_${index}_time_limit`).val());
     date.setHours(23);
     date.setMinutes(59);
-    const stringDate = date.getYear() + "-" + date.getMonth() + "-" + date.getDate() + "T" + date.getHours() + ":" + date.getMinutes();
+    const stringDate = date.getFullYear() + "-" + (date.getMonth() + 1).toString().padStart(2, '0') + "-" + date.getDate().toString().padStart(2, '0') + "T" + date.getHours().toString().padStart(2, '0') + ":" + date.getMinutes().toString().padStart(2, '0');
     $(`#main_to_dos_attributes_${index}_time_limit`).val(stringDate);
   }
 
