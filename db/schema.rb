@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_12_105807) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_19_224655) do
   create_table "first_people", force: :cascade do |t|
     t.string "name"
     t.boolean "is_base"
@@ -34,6 +34,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_12_105807) do
     t.integer "vol"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "is_remote"
   end
 
   create_table "points", force: :cascade do |t|
@@ -49,6 +50,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_12_105807) do
     t.datetime "time_limit"
     t.boolean "is_finished", default: false, null: false
     t.integer "main_id"
+    t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -68,6 +70,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_12_105807) do
     t.integer "grade"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_shareable_zoho"
+    t.boolean "is_shared_zoho"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
