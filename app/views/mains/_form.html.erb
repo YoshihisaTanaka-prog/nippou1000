@@ -31,6 +31,11 @@
   本日の<%= current_user.first_person %>の日報をお送りします。
 
   <div>
+    <%= form.check_box :is_remote %>
+    <%= form.label "リモートワーク" %>
+  </div>
+
+  <div>
     <h3>始めに</h3>
     <%= form.text_area :first_comment, autofocus: true %>
   </div>
@@ -105,12 +110,15 @@
       </div>
     <% end %>
     <input type="hidden" id="todos-length" value="<%= main.to_dos.length %>">
+    <% index = 0 %>
     <%= form.fields_for :to_dos do |t| %>
       <div>
         ・<%= t.text_field :name %><br>
         <%= t.label "　期限　" %>
         <%= t.datetime_field :time_limit %>
+        　<button type="button" onclick="set2359(<%= index %>)">23:59にする</button>
       </div>
+      <% index = index + 1 %>
     <% end %>
   </div>
   <button type="button" onclick="addToDos()">+</button>
@@ -268,7 +276,7 @@
     $(`#main_what_to_dos_attributes_${length}_name`).on("change", function(){
       save();
     });
-    $(`#main_what_to_dos_attributes_${length}_to_time`).on("change", function(){
+    $(`#main_what_to_dos_attributes_${length}_to_time`).val($(`#main_what_to_dos_attributes_${length-1}_to_time`).val()).on("change", function(){
       updateNextStartTime(this);
       save();
     });
@@ -315,6 +323,7 @@
       ・<input type="text" name="main[to_dos_attributes][${length}][name]" id="main_to_dos_attributes_${length}_name"><br>
       <label for="main_to_dos_attributes_${length}_　期限　">　期限　</label>
       <input type="datetime-local" name="main[to_dos_attributes][${length}][time_limit]" id="main_to_dos_attributes_${length}_time_limit">
+      　<button type="button" onclick="set2359(${length})">23:59にする</button>
       </div>
     `);
     $(`#main_to_dos_attributes_${length}_name`).on("change", function(){
@@ -323,6 +332,13 @@
     $(`#main_to_dos_attributes_${length}_time_limit`).on("change", function(){
       save();
     });
+  }
+
+  function set2359(index){
+    let date = $(`main_to_dos_attributes_${index}_time_limit`).val();
+    date.setHours(23);
+    data.setMinutes(59);
+    $(`#main_to_dos_attributes_${length}_time_limit`).val(date)
   }
 
   function updateNextStartTime(html){

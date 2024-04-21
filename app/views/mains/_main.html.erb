@@ -16,8 +16,14 @@
 <%= current_user.name %>[<%= current_user.kana %>]です。
 本日の<%= current_user.first_person %>の日報をお送りします。
 
+<% if main.is_remote %>
+本日はリモートワークでした。
+
+<% end %>
+<% unless main.first_comment.length == 0 %>
 <%= main.first_comment.change_first_person(@basic_first_people, current_user.first_person).scan(/.{1,20}/).join("\n") %>
 
+<% end %>
 〇業務内容
 <% main.what_to_dos.order(:from_time).each do |w| %>
 　・<%= w.name.change_first_person(@basic_first_people, current_user.first_person).scan(/.{1,18}/).join("\n　　") %>
