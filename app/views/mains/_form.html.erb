@@ -99,7 +99,8 @@
   <div id="todos">
     <% ToDo.where(is_finished: false).where.not(main_id: main.id).where(user_id: current_user.id).order(:time_limit).each do |todo| %>
       <div>
-        ・<%= link_to todo.name, edit_to_do_path(todo.id) %><br>
+        ・<%= todo.name %><br>
+        　<%= link_to "編集する", edit_to_do_path(todo.id) %>　<button type="button" onclick="finishedToDo(<%= todo.id %>)">達成</button><br>
         　期限　<%= todo.time_limit %>
       </div>
     <% end %>
@@ -386,14 +387,14 @@
   }
 
   function alertAkashi(){
-    const now = new Date();
-    const currentHour = now.getHours();
     if(!didAlertAkashi){
       didAlertAkashi = true;
       setCSRFtoken();
       $.post("/set-akashi-alert", {}, function(data){
         console.log(data);
       });
+      const now = new Date();
+      const currentHour = now.getHours();
       if( [8,9].includes(currentHour) ){
         let needToOpenAkashi = confirm('打刻を忘れずに！\nAKASHIを開きますか？');
         if( needToOpenAkashi ){
@@ -401,6 +402,13 @@
         }
       }
     }
+  }
+
+  function finishedToDo(id){
+    setCSRFtoken();
+    $.post(`/to_dos/${id}`, {"_method": "patch", "to_do[is_finished]": "1"}, function(data){
+      console.log(data);
+    });
   }
 
   function setEnter() {
