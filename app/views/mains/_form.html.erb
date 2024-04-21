@@ -335,11 +335,10 @@
   }
 
   function set2359(index){
-    let date = new Date($(`#main_to_dos_attributes_${index}_time_limit`).val().split(" (")[0]);
+    let date = new Date($(`#main_to_dos_attributes_${index}_time_limit`).val());
     date.setHours(23);
     date.setMinutes(59);
-    console.log(date);
-    $(`#main_to_dos_attributes_${index}_time_limit`).val(date);
+    $(`#main_to_dos_attributes_${index}_time_limit`).val(JSON.stringify(date).split(" (")[0]);
   }
 
   function updateNextStartTime(html){
