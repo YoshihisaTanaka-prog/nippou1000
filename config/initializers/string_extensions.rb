@@ -36,6 +36,10 @@ class String
         is_init = false
         chars = word.chars
         chars.each_with_index do |c,i|
+          if is_skip
+            is_skip = false
+            next
+          end
           if half_width_chars.include?(c)
             count = count + 1
           else
@@ -55,7 +59,6 @@ class String
               modified_text = modified_text + indention(indent_num, is_need_initial_dot, is_init)
             end
           end
-          next if is_skip
         end
       end
     end
