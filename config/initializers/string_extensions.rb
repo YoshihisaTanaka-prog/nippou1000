@@ -43,7 +43,7 @@ class String
           end
           modified_text = modified_text + c
           unless chars.length == i
-            if count > char_num * 2
+            if count >= char_num * 2
               if ["。", "、", "！", "？"].include?(chars[i+1])
                 modified_text = modified_text + chars[i+1] + "\n"
                 next
