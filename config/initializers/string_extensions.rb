@@ -49,15 +49,17 @@ class String
           modified_text = modified_text + c
           is_skip = false
           if count >= char_num * 2
-            unless chars.length - 1 == i
+            ii = i
+            unless i == chars.length - 1
               if ["。", "、", "！", "？", ".", ",", "!", "?"].include?(chars[i+1])
-                modified_text = modified_text + chars[i+1] + "\n"
+                modified_text = modified_text + chars[i+1]
                 is_skip = true
-              else
-                modified_text = modified_text + "\n"
+                ii = ii + 1
               end
-              count = 0
-              modified_text = modified_text + indention(indent_num, is_need_initial_dot, is_init)
+              unless ii == chars.length - 1
+                count = 0
+                modified_text = modified_text + "\n" + indention(indent_num, is_need_initial_dot, is_init)
+              end
             end
           end
         end
