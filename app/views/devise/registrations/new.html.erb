@@ -14,7 +14,7 @@
   </div>
 
   <div class="field">
-    <%= f.label "署名" %><br>
+    <%= f.label :sign, "署名" %><br>
     <%= f.text_area :sign %>
   </div>
 
@@ -24,22 +24,22 @@
   </div>
   
   <div class="field">
-    <%= f.label "入社年度" %><br />
+    <%= f.label :grade,  "入社年度" %><br />
     <%= f.number_field :grade, value: Time.now.year %>
   </div>
 
   <div class="field">
-    <%= f.label "所属" %><br />
+    <%= f.label :affiliation, "所属" %><br />
     <%= f.text_field :affiliation %>
   </div>
 
   <div class="field">
-    <%= f.label "今までに何通送りましたか？" %><br />
+    <%= f.label :vol, "今までに何通送りましたか？" %><br />
     <%= f.number_field :vol %>通
   </div>
 
   <div>
-    <%= f.label "一人称" %><br>
+    <%= f.label :first_person_id, "一人称" %><br>
     <%= f.collection_select :first_person_id, FirstPerson.where(is_base: false), :id, :name, include_blank: "選択して下さい" %>
   </div>
 
@@ -57,7 +57,7 @@
   </div>
   <p>　</p>
   <div>
-    <%= f.label "Zohoとユーザーデータを関連づけます。" %>
+    <%= f.label :is_shareable_zoho, "Zohoとユーザーデータを関連づけます。" %>
     <%= f.check_box :is_shareable_zoho, checked: true %>
     <p>
       当サイトでは、より便利でスムーズなサービスを提供するために、Zohoと連携しています。この連携により、以下の情報を安全に管理し、サービスの利便性を向上させることができます。<br><br>
