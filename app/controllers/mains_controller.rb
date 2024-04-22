@@ -1,5 +1,5 @@
 class MainsController < ApplicationController
-  before_action :set_main, only: %i[ show edit update destroy ]
+  before_action :set_main, only: %i[ show edit update destroy send_mail ]
   after_action :set_todo_user_id, only: %i[ create update ]
   skip_before_action :verify_authenticity_token
 
@@ -32,6 +32,13 @@ class MainsController < ApplicationController
 
   # GET /mains/new
   def new
+    if request.path_info == "/"
+      unless current_user.mains.length == 0
+        unless current_user.mains.last.did_send
+          redirect_to edit_main_path(current_user.mains.last)
+        end
+      end
+    end
     @main = Main.new
     @main.to_dos.build
     @main.points.build
@@ -51,6 +58,7 @@ class MainsController < ApplicationController
     current_user.save
 
     @main.vol = current_user.vol
+    @main.did_send = false
 
     respond_to do |format|
       if @main.save
@@ -93,8 +101,10 @@ class MainsController < ApplicationController
   end
 
   def send_mail
+    @main.did_send = true
+    @main.save
     UserMailer.nippou_email(params, current_user.email).deliver_now
-    redirect_to redirect_path(url: "https://atnd.ak4.jp/ja/login?next=%2Fja%2Fmypage%2Fpunch", msg:"打刻も忘れずに！")
+    redirect_to redirect_path(url: "https://atnd.ak4.jp/ja/login?next=%2Fja%2Fmypage%2Fpunch", msg:"本日もお疲れさまでした。\n打刻も忘れずに！")
   end
 
   def set_akashi_alert
@@ -122,7 +132,7 @@ class MainsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def main_params
-      params.require(:main).permit(:title, :first_comment, :second_comment, to_dos_attributes: [:id, :name, :time_limit], points_attributes: [:id, :text, :is_good], what_to_dos_attributes: [:id, :name, :from_time, :to_time], learned_lists_attributes: [:id, :text, :is_learned])
+      params.require(:main).permit(:title, :is_remote, :first_comment, :second_comment, to_dos_attributes: [:id, :name, :time_limit], points_attributes: [:id, :text, :is_good], what_to_dos_attributes: [:id, :name, :from_time, :to_time], learned_lists_attributes: [:id, :text, :is_learned])
     end
 
     def set_todo_user_id
