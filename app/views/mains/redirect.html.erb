@@ -2,5 +2,5 @@
   <meta http-equiv="refresh" content="3;URL=<%= params[:url] %>">
 </head>
 <body>
-<h1><%= params[:msg] %></h1>
+<h1><%= params[:msg].gsub("\n", "<br>").html_safe %></h1>
 </body>

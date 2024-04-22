@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_19_224655) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_22_113901) do
   create_table "first_people", force: :cascade do |t|
     t.string "name"
     t.boolean "is_base"
@@ -35,6 +35,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_19_224655) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "is_remote"
+    t.boolean "did_send"
   end
 
   create_table "points", force: :cascade do |t|

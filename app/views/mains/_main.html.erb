@@ -2,6 +2,7 @@
 <div id="<%= dom_id main %>">
   <form action="/send" method="post" accept-charset="UTF-8" id="mail">
     <input type="hidden" name="authenticity_token">
+    <input type="hidden" name="id" value="<%= main.id %>">
     <p>
       <strong>件名</strong><br>
       <input type="text" name="title" style="width: 100%" value="日報　<%= current_user.grade %><%= "新卒" if current_user.grade == Time.now.year %>　<%= current_user.affiliation %>　No.<%= main.vol %>　<%= main.title.change_first_person(@basic_first_people, current_user.first_person) %>">
@@ -77,8 +78,10 @@
 <% end %>
 <% end %>
 <% end %>
+<% unless main.second_comment.length == 0 %>
 
 <%= main.second_comment.change_first_person(@basic_first_people, current_user.first_person).scan(/.{1,20}/).join("\n") %>
+<% end %>
 
 以上です。
 本日もお読みいただき、
