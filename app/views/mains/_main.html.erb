@@ -75,14 +75,14 @@
 <%= t.name.change_first_person(@basic_first_people, current_user.first_person).begin_on_a_new_line(18,1,true) %>
 <% if t.time_limit %>
 　　期限：<%= t.time_limit.strftime('%Y/%m/%d %H:%M') %>
+
 <% end %>
 <% end %>
 <% end %>
 <% unless main.second_comment.length == 0 %>
-
 <%= main.second_comment.change_first_person(@basic_first_people, current_user.first_person).begin_on_a_new_line(20,0,false) %>
-<% end %>
 
+<% end %>
 以上です。
 本日もお読みいただき、
 ありがとうございます。

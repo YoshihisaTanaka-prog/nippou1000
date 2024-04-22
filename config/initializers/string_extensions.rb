@@ -29,28 +29,30 @@ class String
     half_width_chars = ('a'..'z').to_a + ('A'..'Z').to_a + ('0'..'9').to_a + ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+', '[', ']', '{', '}', '|', '\\', ';', ':', '\'', '"', ',', '.', '<', '>', '/', '?', '`', '~']
     half_width_chars = half_width_chars + "ｱｲｳｴｵｶﾞｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾟﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦﾝｧｨｩｪｫｬｭｮ".chars
     is_init = true
-    self.split("\n").each do |word| 
-      count = 0
-      modified_text = modified_text + indention(indent_num, is_need_initial_dot, is_init)
-      is_init = false
-      chars = word.chars
-      chars.each_with_index do |c,i|
-        if half_width_chars.include?(c)
-          count = count + 1
-        else
-          count = count + 2
-        end
-        modified_text = modified_text + c
-        unless chars.length == i
-          if count > char_num * 2
-            if ["。", "、", "！", "？"].include?(chars[i+1])
-              modified_text = modified_text + chars[i+1] + "\n"
-              next
-            else
-              modified_text = modified_text + "\n"
+    self.split("\n").each do |word|
+      if word != ""
+        count = 0
+        modified_text = modified_text + indention(indent_num, is_need_initial_dot, is_init)
+        is_init = false
+        chars = word.chars
+        chars.each_with_index do |c,i|
+          if half_width_chars.include?(c)
+            count = count + 1
+          else
+            count = count + 2
+          end
+          modified_text = modified_text + c
+          unless chars.length == i
+            if count > char_num * 2
+              if ["。", "、", "！", "？"].include?(chars[i+1])
+                modified_text = modified_text + chars[i+1] + "\n"
+                next
+              else
+                modified_text = modified_text + "\n"
+              end
+              count = 0
+              modified_text = modified_text + indention(indent_num, is_need_initial_dot, is_init)
             end
-            count = 0
-            modified_text = modified_text + indention(indent_num, is_need_initial_dot, is_init)
           end
         end
       end
