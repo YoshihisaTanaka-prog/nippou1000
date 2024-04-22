@@ -21,12 +21,12 @@
 
 <% end %>
 <% unless main.first_comment.length == 0 %>
-<%= main.first_comment.change_first_person(@basic_first_people, current_user.first_person).scan(/.{1,20}/).join("\n") %>
+<%= main.first_comment.change_first_person(@basic_first_people, current_user.first_person).begin_on_a_new_line(20,0,false) %>
 
 <% end %>
 〇業務内容
 <% main.what_to_dos.order(:from_time).each do |w| %>
-　・<%= w.name.change_first_person(@basic_first_people, current_user.first_person).scan(/.{1,18}/).join("\n　　") %>
+<%= w.name.change_first_person(@basic_first_people, current_user.first_person).begin_on_a_new_line(18,1,true) %>
 　　<%= w.from_time.strftime('%H:%M') %>～<%= w.to_time.strftime('%H:%M') %>
 <% end %>
 
@@ -38,7 +38,7 @@
 <% unless i == 0 %>
 
 <% end %>
-　・<%= l.text.change_first_person(@basic_first_people, current_user.first_person).gsub("\n", "\n　　").scan(/.{1,18}/).join("\n　　") %>
+<%= l.text.change_first_person(@basic_first_people, current_user.first_person).begin_on_a_new_line(18,1,true) %>
 <% end %>
 <% end %>
 
@@ -50,35 +50,35 @@
 <% unless i == 0 %>
 
 <% end %>
-　・<%= l.text.change_first_person(@basic_first_people, current_user.first_person).gsub("\n", "\n　　").scan(/.{1,18}/).join("\n　　") %>
+<%= l.text.change_first_person(@basic_first_people, current_user.first_person).begin_on_a_new_line(18,1,true) %>
 <% end %>
 <% end %>
 <% unless main.points.where(is_good: 0).length == 0 %>
 
 〇良かった点
 <% main.points.where(is_good: 0).order(:id).each do |p| %>
-　・<%= p.text.change_first_person(@basic_first_people, current_user.first_person).scan(/.{1,18}/).join("\n　　") %>
+<%= p.text.change_first_person(@basic_first_people, current_user.first_person).begin_on_a_new_line(18,1,true) %>
 <% end %>
 <% end %>
 <% unless main.points.where(is_good: 1).length == 0 %>
 
 〇悪かった点
 <% main.points.where(is_good: 1).order(:id).each do |p| %>
-　・<%= p.text.change_first_person(@basic_first_people, current_user.first_person).scan(/.{1,18}/).join("\n　　") %>
+　・<%= p.text.change_first_person(@basic_first_people, current_user.first_person).begin_on_a_new_line(18,1,true) %>
 <% end %>
 <% end %>
 <% unless @todos.length == 0 %>
 
 〇やりたいこと
 <% @todos.each do |t| %>
-　・<%= t.name.change_first_person(@basic_first_people, current_user.first_person).scan(/.{1,18}/).join("\n　　") %>
+　・<%= t.name.change_first_person(@basic_first_people, current_user.first_person).begin_on_a_new_line(18,1,true) %>
 <% if t.time_limit %>
 　　期限：<%= t.time_limit.strftime('%Y/%m/%d %H:%M') %>
 <% end %>
 <% end %>
 <% end %>
 
-<%= main.second_comment.change_first_person(@basic_first_people, current_user.first_person).scan(/.{1,20}/).join("\n") %>
+<%= main.second_comment.change_first_person(@basic_first_people, current_user.first_person).begin_on_a_new_line(20,0,false) %>
 
 以上です。
 本日もお読みいただき、
