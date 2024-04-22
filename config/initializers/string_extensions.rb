@@ -48,8 +48,8 @@ class String
           end
           modified_text = modified_text + c
           is_skip = false
-          unless chars.length == i
-            if count > char_num * 2
+          if count >= char_num * 2
+            unless chars.length - 1 == i
               if ["。", "、", "！", "？", ".", ",", "!", "?"].include?(chars[i+1])
                 modified_text = modified_text + chars[i+1] + "\n"
                 is_skip = true
