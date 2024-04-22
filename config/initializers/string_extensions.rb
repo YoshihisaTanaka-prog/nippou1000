@@ -42,11 +42,12 @@ class String
             count = count + 2
           end
           modified_text = modified_text + c
+          is_skip = false
           unless chars.length == i
-            if count >= char_num * 2
-              if ["。", "、", "！", "？"].include?(chars[i+1])
+            if count > char_num * 2
+              if ["。", "、", "！", "？", ".", ",", "!", "?"].include?(chars[i+1])
                 modified_text = modified_text + chars[i+1] + "\n"
-                next
+                is_skip = true
               else
                 modified_text = modified_text + "\n"
               end
@@ -54,6 +55,7 @@ class String
               modified_text = modified_text + indention(indent_num, is_need_initial_dot, is_init)
             end
           end
+          next if is_skip
         end
       end
     end
