@@ -314,6 +314,7 @@
     $(`#main_points_attributes_${length}_is_good`).on("change", function(){
       save();
     });
+    $("#points-length").val(length + 1);
   }
 
   function addToDos() {
@@ -332,6 +333,7 @@
     $(`#main_to_dos_attributes_${length}_time_limit`).on("change", function(){
       save();
     });
+    $("#todos-length").val(length + 1);
   }
 
   function set2359(index){
