@@ -57,6 +57,7 @@
         <% end %>
         ～
         <%= w.time_field :to_time, class: "to-time" %>
+        <button type="button" onclick="setMorningAssembly(<%= index %>)">朝礼を入力</button>
       </div>
       <% index = index + 1%>
     <% end %>
@@ -150,39 +151,43 @@
   function initialize() {
     setEnter();
     alertAkashi();
-    if( getGetParams("confirmNum") ){
-      $("input[type='text']").each(function(){
-        const text = $(this).val();
-        for(let c of ["1","2","3","4","5","6","7","8","9","0"]){
-          if(text.val().includes(c)){
-            $(this).css("background-color","#f80");
-          }
-        }
-        var isIncludedKanjiNum = false;
-        for(let c of ["一","二","三","四","五","六","七","八","九","十","百","千"]){
-          if(text.val().includes(c)){
-            $(this).css("background-color","#f80");
-          }
-        }
-      });
-      $("textarea").each(function(){
-        const text = $(this).val();
-        for(let c in ["1","2","3","4","5","6","7","8","9","0"]){
-          if(text.includes(c)){
-            $(this).css("background-color","#f80");
-          }
-        }
-        var isIncludedKanjiNum = false;
-        for(let c in ["一","二","三","四","五","六","七","八","九","十","百","千"]){
-          if(text.includes(c)){
-            $(this).css("background-color","#f80");
-          }
-        }
-      });
-    }
   }
 
   function confirmAndSubmit(){
+    $("input[type='text']").each(function(){
+      const text = $(this).val();
+      var isIncludedNum = false;
+      for(let c of ["1","2","3","4","5","6","7","8","9","0"]){
+        if(text.val().includes(c)){
+          $(this).css("background-color","#f80");
+          isIncludedNum = true;
+        }
+      }
+      var isIncludedKanjiNum = false;
+      for(let c of ["一","二","三","四","五","六","七","八","九","十","百","千"]){
+        if(text.val().includes(c)){
+          $(this).css("background-color","#ff0");
+          isIncludedKanjiNum = true;
+        }
+      }
+    });
+    $("textarea").each(function(){
+      const text = $(this).val();
+      for(let c of ["1","2","3","4","5","6","7","8","9","0","１","２","３","４","５","６","７","８","９","０"]){
+        if(text.includes(c)){
+          $(this).css("background-color","#ff0");
+          isIncludedNum = true;
+        }
+      }
+      for(let c of ["一","二","三","四","五","六","七","八","九","十","百","千"]){
+        if(text.includes(c)){
+          $(this).css("background-color","#ff0");
+          isIncludedKanjiNum = true;
+        }
+      }
+    });
+    const isMixedNum = isIncludedNum && isIncludedKanjiNum
+
     var isExistsDaDearu = false;
     var isExistsNull = false;
     const ignoreIdList = ["main_title"];
@@ -231,10 +236,13 @@
         $(this).css("background", "#f80")
       }
     });
+
     if(isExistsDaDearu){
       alert("です・ます調に治してください。");
     } else if(isExistsNull){
       alert("必要項目を入力して下さい。");
+    } else if(isMixedNum){
+      alert("漢数字と算用数字が混在しています。");
     } else{
       $("#main-form").submit();
     }
@@ -260,6 +268,7 @@
           <input type="time" name="main[what_to_dos_attributes][0][from_time]" id="main_what_to_dos_attributes_0_from_time">
         ～
         <input class="to-time" type="time" name="main[what_to_dos_attributes][0][to_time]" id="main_what_to_dos_attributes_0_to_time">
+        <button type="button" onclick="setMorningAssembly(0)">朝礼に設定</button>
         </div>
       `);
     } else{
@@ -270,6 +279,7 @@
         <input type="hidden" name="main[what_to_dos_attributes][${length}][from_time]" id="main_what_to_dos_attributes_${length}_from_time" value="${$(`#main_what_to_dos_attributes_${length-1}_to_time`).val()}">
         <span id="from-${length}">${$(`#main_what_to_dos_attributes_${length-1}_to_time`).val().split(":")[0]}:${$(`#main_what_to_dos_attributes_${length-1}_to_time`).val().split(":")[1]}</span> ～ 
         <input type="time" name="main[what_to_dos_attributes][${length}][to_time]" id="main_what_to_dos_attributes_${length}_to_time">
+        <button type="button" onclick="setMorningAssembly(${length})">朝礼を入力</button>
         </div>
       `);
     }
@@ -349,6 +359,15 @@
     const selectedTime = $(html).val();
     $(`#from-${index+1}`).html(selectedTime.split(":")[0] + ":" + selectedTime.split(":")[1]);
     $(`#main_what_to_dos_attributes_${index+1}_from_time`).val(selectedTime);
+  }
+
+  function setMorningAssembly(id) {
+    $(`#main_what_to_dos_attributes_${id}_name`).val("朝礼");
+    $(`#main_what_to_dos_attributes_${id}_from_time`).val("09:30");
+    $(`#main_what_to_dos_attributes_${id}_to_time`).val("10:00");
+    $(`#main_what_to_dos_attributes_${id-1}_to_time`).val("09:30");
+    $(`#from-${id}`).text("09:30");
+    save();
   }
   
   function save() {
