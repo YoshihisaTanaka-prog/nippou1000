@@ -38,6 +38,6 @@ end
 wb.add_worksheet(name: "Main") do |sheet|
   sheet.add_row [ "id", "title", "vol", "firstComment", "seccondComment", "email", "didSend", "isRemote" ]
   Main.all.each do |main|
-    sheet.add_row [ main.id, main.title, main.vol, main.first_comment, main.second_comment, main.user.email, main.did_send, main.is_remote.to_b? ]
+    sheet.add_row [ main.id, main.title, main.vol, main.first_comment, main.second_comment, main.user.email, main.did_send, if main.is_remote then main.is_remote.to_b? else false end ]
   end
 end
