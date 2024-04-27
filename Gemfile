@@ -24,6 +24,8 @@ gem "dotenv-rails"
 
 gem 'webpacker'
 
+gem 'axlsx_rails'
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 

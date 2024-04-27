@@ -116,9 +116,10 @@ class MainsController < ApplicationController
     render :layout => 'redirect'
   end
 
-  def share
-    send_to_zoho_forms
-    redirect_to root_path
+  def download
+    unless current_user.email == ENV["ADMIN_EMAIL"]
+      redirect_to root_path
+    end
   end
 
   private

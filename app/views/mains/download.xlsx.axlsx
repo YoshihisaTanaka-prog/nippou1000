@@ -1,0 +1,43 @@
+wb = xlsx_package.workbook
+
+wb.add_worksheet(name: "UserData") do |sheet|
+  sheet.add_row [ "email", "fiestPerson", "currentVol", "grade", "sign", "kana", "affiliation" ]
+  User.all.each do |user|
+    sheet.add_row [ user.email, user.first_person, user.vol, user.grade, user.sign, user.kana, user.affiliation ]
+  end
+end
+
+wb.add_worksheet(name: "ToDo") do |sheet|
+  sheet.add_row [ "name", "timeLimit", "isFinished", "email" ]
+  ToDo.all.each do |todo|
+    sheet.add_row [ todo.name, todo.time_limit, todo.is_finished, todo.user.email ]
+  end
+end
+
+wb.add_worksheet(name: "Point") do |sheet|
+  sheet.add_row [ "text", "isGood", "mainId" ]
+  Point.all.each do |point|
+    sheet.add_row [ point.text, !point.is_good.to_b?, point.main_id ]
+  end
+end
+
+wb.add_worksheet(name: "WhatToDo") do |sheet|
+  sheet.add_row [ "name", "fromTime", "toTime", "mainId" ]
+  WhatToDo.all.each do |what_todo|
+    sheet.add_row [ what_todo.name, Time.parse(what_todo.from_time.strftime('%H:%M')), Time.parse(what_todo.to_time.strftime('%H:%M')), what_todo.main_id ]
+  end
+end
+
+wb.add_worksheet(name: "Feeling") do |sheet|
+  sheet.add_row [ "text", "isLearned", "mainId" ]
+  LearnedList.all.each do |ll|
+    sheet.add_row [ ll.text, !ll.is_learned.to_b?, ll.main_id ]
+  end
+end
+
+wb.add_worksheet(name: "Main") do |sheet|
+  sheet.add_row [ "id", "title", "vol", "firstComment", "seccondComment", "email", "didSend", "isRemote" ]
+  Main.all.each do |main|
+    sheet.add_row [ main.id, main.title, main.vol, main.first_comment, main.second_comment, main.user.email, main.did_send, main.is_remote.to_b? ]
+  end
+end

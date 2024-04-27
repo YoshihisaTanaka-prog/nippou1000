@@ -69,3 +69,9 @@ class String
   end
   
 end
+
+class Integer
+  def to_b?
+    !self.zero?
+  end
+end
