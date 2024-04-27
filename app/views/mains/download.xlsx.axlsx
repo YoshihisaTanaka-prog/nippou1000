@@ -10,7 +10,7 @@ end
 wb.add_worksheet(name: "ToDo") do |sheet|
   sheet.add_row [ "name", "timeLimit", "isFinished", "email" ]
   ToDo.all.each do |todo|
-    sheet.add_row [ todo.name, todo.time_limit, todo.is_finished, todo.user.email ]
+    sheet.add_row [ todo.name, todo.time_limit, todo.is_finished, todo.user.email if todo.user ]
   end
 end
 
