@@ -1,9 +1,9 @@
 wb = xlsx_package.workbook
 
 wb.add_worksheet(name: "UserData") do |sheet|
-  sheet.add_row [ "email", "firstPerson", "currentVol", "grade", "sign", "kana", "affiliation", "isShown" ]
+  sheet.add_row [ "email", "firstPerson", "currentVol", "grade", "sign", "name, "kana", "affiliation", "isShown" ]
   User.all.each do |user|
-    sheet.add_row [ user.email, user.first_person, user.vol, user.grade, user.sign, user.kana, user.affiliation, ture ]
+    sheet.add_row [ user.email, user.first_person, user.vol, user.grade, user.sign, user.name, user.kana, user.affiliation, ture ]
   end
 end
 
