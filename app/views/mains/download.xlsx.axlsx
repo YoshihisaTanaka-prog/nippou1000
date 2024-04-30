@@ -1,5 +1,7 @@
 wb = xlsx_package.workbook
 
+ture = true
+
 wb.add_worksheet(name: "UserData") do |sheet|
   sheet.add_row [ "email", "firstPerson", "currentVol", "grade", "sign", "name, "kana", "affiliation", "isShown" ]
   User.all.each do |user|
